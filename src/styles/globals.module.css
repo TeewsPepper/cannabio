@@ -1,0 +1,75 @@
+
+
+/* 📦 Reset básico */
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-fondo);
+  /* color: var(--color-texto); */
+  line-height: 1.6;
+  
+}
+
+/* 🎯 Elementos comunes */
+h1 {
+  font-family: manrope;
+}
+  h3, h4, h5, h6 {
+  font-family: var(--font-secundaria);
+  margin: 0 0 var(--espaciado-sm);
+  color: var(--color-texto);
+}
+
+p {
+  margin: 0 0 var(--espaciado-sm);
+}
+
+a {
+  color: var(--color-primario);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+
+
+/* 🔧 Clases utilitarias */
+.section {
+  padding: var(--espaciado-lg) var(--espaciado-sm);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* .btn {
+  display: inline-block;
+  padding: var(--espaciado-sm) var(--espaciado-md);
+  background-color: var(--color-primario);
+  color: var(--color-blanco);
+  border: none;
+  border-radius: var(--borde-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--color-acento);
+  transform: translateY(-2px);
+} */
+/* 
+.card {
+  background-color: var(--color-blanco);
+  border-radius: var(--borde-radius);
+  padding: var(--espaciado-md);
+  box-shadow: var(--sombra-suave);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--sombra-hover);
+} */

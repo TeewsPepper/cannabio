@@ -1,0 +1,95 @@
+/* Formulario.module.css */
+
+.formulario {
+  background: linear-gradient(
+      rgba(15, 42, 32, 0.6),
+            rgba(15, 42, 32, 0.6)
+
+    ),
+    url('/public/img/cannabio-08.jpg') no-repeat center/cover;
+  color: var(--color-blanco);
+  padding: var(--espaciado-lg) var(--espaciado-sm);
+  box-shadow: var(--sombra-suave);
+  max-width: 1200px;
+  
+  position: relative;
+  z-index: 1;
+}
+
+.contenido {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaciado-md);
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-family: var(--font-secundaria);
+  text-align: center;
+  color: var(--color-secundario);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaciado-sm);
+}
+
+input,
+textarea {
+  padding: var(--espaciado-sm);
+  border: none;
+  border-radius: var(--borde-radius);
+  font-family: var(--font-principal);
+  font-size: 1rem;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  box-shadow: var(--sombra-suave);
+  transition: box-shadow 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: var(--sombra-hover);
+}
+
+button {
+  background-color: var(--color-primario);
+  color: var(--color-blanco);
+  font-weight: 600;
+  padding: var(--espaciado-sm);
+  border: none;
+  border-radius: var(--borde-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: var(--font-secundaria);
+}
+
+button:hover {
+  background-color: var(--color-acento);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .formulario {
+    padding: var(--espaciado-md) var(--espaciado-sm);
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .formulario {
+
+  border-radius: 0;
+
+}
+  h2 {
+    font-size: 1.6rem;
+  }
+}

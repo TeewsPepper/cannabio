@@ -1,0 +1,147 @@
+/* Header.module.css */
+
+.header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: var(--color-acento);
+  padding: 1rem .5rem;
+  z-index: 100;
+  box-shadow: var(--sombra-suave);
+  font-family:var(--font-secundaria);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--espaciado-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: transparent;
+}
+
+.logo_container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.logoImage {
+  border-radius: 50%;
+  border: 1px solid var(--color-secundario);
+  width: 3rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-blanco);
+  margin: 0;
+  font-family: var(--font-principal);
+}
+
+.logo_container p {
+  font-size: 0.85rem;
+  color: var(--color-secundario);
+  margin: 0;
+}
+
+.desktopNav {
+  display: flex;
+  gap: var(--espaciado-md);
+}
+
+.navLink {
+  color: var(--color-blanco);
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+  text-decoration: none;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-secundario);
+  transition: width 0.3s ease;
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+.navLink:hover {
+  color: var(--color-secundario);
+}
+
+/* Botón menú móvil */
+.mobileMenuBtn {
+  display: none;
+}
+
+/* Menú móvil desplegable */
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-acento);
+  opacity: .8;
+  padding: var(--espaciado-md);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.mobileNavLink {
+  color: var(--color-blanco);
+  font-size: 1.2rem;
+  padding: 0.75rem 0;
+  text-align: center;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.mobileNavLink:hover {
+  color: var(--color-secundario);
+}
+
+/* Responsive para tablet y móvil */
+@media (max-width: 768px) {
+  .desktopNav {
+    display: none;
+  }
+
+  .mobileMenuBtn {
+    display: block;
+  }
+}
+
+/* Mejoras para pantallas pequeñas (< 400px) */
+@media (max-width: 400px) {
+  .container {
+    padding: 0 var(--espaciado-xs);
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .logo_container p {
+    font-size: 0.75rem;
+  }
+
+  .mobileNav {
+    padding: var(--espaciado-sm);
+  }
+
+  .mobileNavLink {
+    font-size: 1rem;
+    padding: 0.5rem 0;
+  }
+}

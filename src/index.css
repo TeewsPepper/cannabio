@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+
+:root {
+  /* 🎨 Colores */
+  --color-primario: #158652;       /* Celeste vibrante */
+  --color-secundario: #e2d36e;     
+  --color-fondo: #fefefe;          /* Blanco puro con leve tono cálido */
+  --color-texto: #0f172a;          /* Azul muy oscuro para contraste */
+  --color-acento: #093538;         /* Amarillo moderno / acento cálido */
+  --color-blanco: #ffffff;
+  --color-gris: #e2e8f0;           /* Gris suave para bordes y UI */
+
+  
+  /* 🧩 Bordes y sombras */
+  --borde-radius: 12px;
+  --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.04);
+  --sombra-hover: 0 6px 20px rgba(0, 0, 0, 0.08);
+  
+
+  /* 🔤 Tipografía */
+  --font-principal: "Manrope", sans-serif;
+  --font-secundaria: "Rubik", sans-serif;;
+
+  /* 📏 Espaciados y layout */
+  --espaciado-xs: 0.5rem;
+  --espaciado-sm: 1rem;
+  --espaciado-md: 2rem;
+  --espaciado-lg: 4rem;
+
+  
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+/* body {
+  font-family: var(--font-secundaria);
+  background-color: #ffffff;
+  color: #222222;
+  line-height: 1.6;
+  
+} */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+  outline: none;
+  border: none;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
+}
+
+/* img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+} */

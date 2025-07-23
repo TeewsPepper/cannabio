@@ -1,0 +1,117 @@
+.aboutSection {
+  background: linear-gradient(
+      rgba(15, 42, 32, 0.6),
+            rgba(15, 42, 32, 0.6)
+
+    ),
+    url('/public/img/CannaBio.jpg') no-repeat center/cover;
+  padding: var(--espaciado-lg) var(--espaciado-sm);
+  color: var(--color-blanco);
+  box-shadow: var(--sombra-suave);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.sectionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espaciado-md);
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  font-family: var(--font-secundaria);
+  font-size: 2.5rem;
+  color: var(--color-secundario);
+  margin-bottom: var(--espaciado-md);
+  border-bottom: 2px solid var(--color-secundario);
+  padding-bottom: var(--espaciado-xs);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenedor de imágenes en fila */
+.imageRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .4em;
+  width: 100%;
+  height: 70%;
+  margin-bottom: 2rem;
+}
+
+/* Imágenes más altas */
+.rowImage {
+  width: 100%;
+  height:100%; /* Aumenté la altura de 200px a 300px */
+  object-fit: contain;
+  
+  /* border: 2px solid var(--color-secundario); */
+  box-shadow: var(--sombra-hover);
+  transition: transform 0.3s ease;
+}
+.rowImage:first-child {
+  border-radius: var(--borde-radius) 0 0 var(--borde-radius);
+}
+.rowImage:last-child {
+  border-radius: 0 var(--borde-radius) var(--borde-radius) 0 ;
+}
+
+.rowImage:hover {
+  transform: scale(1);
+  box-shadow: 0 8px 25px rgba(207, 194, 115, 0.3);
+}
+
+.aboutText {
+  font-family: var(--font-principal);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--color-blanco);
+  background-color: rgba(15, 23, 42, 0.6);
+  padding: var(--espaciado-md);
+  border-radius: var(--borde-radius);
+  box-shadow: var(--sombra-suave);
+  width: 100%;
+  text-align: center;
+}
+
+.aboutParagraph + .aboutParagraph {
+  margin-top: var(--espaciado-sm);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .imageRow {
+    grid-template-columns: repeat(3, 1fr);
+    gap: .4em;;
+  }
+  
+  .rowImage {
+    height: auto; /* Altura reducida para tablet */
+  }
+  
+  .sectionTitle {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .imageRow {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  
+  .rowImage {
+    height: auto; /* Altura reducida para móvil */
+  }
+  .sectionTitle {
+    font-size: 2rem;
+  }
+  
+  .aboutText {
+    padding: var(--espaciado-sm);
+    font-size: 0.95rem;
+    text-align: center;
+  }
+}

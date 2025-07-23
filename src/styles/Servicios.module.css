@@ -1,0 +1,106 @@
+.servicios {
+  padding: var(--espaciado-md);
+  background: linear-gradient(rgba(15, 42, 32, 0.6), rgba(15, 42, 32, 0.6)),
+    url("/public/img/cannabio-07.jpg") no-repeat center/cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  color: var(--color-blanco);
+  text-align: center;
+  font-family: var(--font-principal);
+}
+
+.servicios h2 {
+  font-size: 2.5rem;
+  margin-bottom: var(--espaciado-lg);
+  border-bottom: 2px solid var(--color-secundario);
+  color: var(--color-secundario);
+  font-family: var(--font-secundaria);
+}
+
+.grid {
+  display: grid;
+  gap: var(--espaciado-sm);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  justify-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+
+  backdrop-filter: blur(12px);
+  padding: var(--espaciado-md);
+  border-radius: var(--borde-radius);
+  width: 100%;
+  max-width: 300px;
+  box-shadow: var(--sombra-suave);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.card h3 {
+  margin: var(--espaciado-xs) 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-acento);
+
+  letter-spacing: 0.5px;
+  transition: transform 0.3s ease;
+  font-family: var(--font-secundaria);
+}
+
+.card:hover h3 {
+  transform: scale(1.05);
+  color: var(--color-secundario);
+}
+.card:hover p {
+  transform: scale(1.05);
+  color: var(--color-acento);
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: var(--sombra-hover);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--espaciado-sm);
+  color: var(--color-acento);
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.card:hover .icon {
+  color: var(--color-secundario);
+  transform: scale(1.2);
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: var(--color-gris);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+@media (max-width: 400px) {
+  .servicios {
+    padding: var(--espaciado-md);
+  }
+  .servicios h2 {
+    font-size: 2rem;
+    margin-bottom: var(--espaciado-sm);
+    color: var(--color-secundario);
+    font-family: var(--font-secundaria);
+  }
+  /* .grid {
+ 
+  padding: var(--espaciado-sm);
+} */
+  .card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: var(--espaciado-sm);
+  }
+}

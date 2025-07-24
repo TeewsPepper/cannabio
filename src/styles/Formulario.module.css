@@ -6,11 +6,11 @@
             rgba(15, 42, 32, 0.6)
 
     ),
-    url('/public/img/cannabio-08.jpg') no-repeat center/cover;
+    url('@img/cannabio-08.jpg') no-repeat center/cover;
   color: var(--color-blanco);
   padding: var(--espaciado-lg) var(--espaciado-sm);
   box-shadow: var(--sombra-suave);
-  max-width: 1200px;
+  max-width: 1900px;
   
   position: relative;
   z-index: 1;

@@ -4,7 +4,7 @@
             rgba(15, 42, 32, 0.6)
 
     ),
-    url('/public/img/CannaBio.jpg') no-repeat center/cover;
+    url('@img/CannaBio.jpg') no-repeat center/cover;
   padding: var(--espaciado-lg) var(--espaciado-sm);
   color: var(--color-blanco);
   box-shadow: var(--sombra-suave);

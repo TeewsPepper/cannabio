@@ -39,13 +39,9 @@ html {
   scroll-behavior: smooth;
 }
 
-/* body {
-  font-family: var(--font-secundaria);
-  background-color: #ffffff;
-  color: #222222;
-  line-height: 1.6;
-  
-} */
+strong {
+  color: var(--color-secundario);
+}
 
 a {
   color: inherit;

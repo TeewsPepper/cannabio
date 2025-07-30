@@ -14,6 +14,7 @@ const Politica = ({ visible, onClose }: Props) => {
       <div className={styles.modal}>
         <button className={styles.close} onClick={onClose}>✕</button>
         <h2>Política de Privacidad y Cookies</h2>
+
         <p><strong>1. Responsable del tratamiento de datos</strong><br />
         Los datos enviados a través del formulario de contacto son gestionados por el equipo de CannaBIO exclusivamente con fines de respuesta a la consulta recibida.</p>
 
@@ -24,7 +25,15 @@ const Politica = ({ visible, onClose }: Props) => {
         El tratamiento de los datos se realiza con base en el consentimiento explícito del usuario al enviar el formulario.</p>
 
         <p><strong>4. Destinatarios de los datos</strong><br />
-        Los datos son enviados mediante el servicio EmailJS directamente a las casillas de correo configuradas por CannaBIO. No se comparten con terceros ni se utilizan con fines distintos a los indicados.</p>
+        Los datos son enviados mediante el servicio <strong>EmailJS</strong> directamente a las casillas de correo configuradas por CannaBIO. EmailJS actúa como intermediario en la transmisión de los datos. Puedes consultar su política de privacidad aquí:{" "}
+          <a
+            href="https://www.emailjs.com/legal/privacy-policy/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Política de Privacidad de EmailJS
+          </a>.
+        </p>
 
         <p><strong>5. Cookies</strong><br />
         Este sitio no utiliza cookies propias ni de terceros con fines de seguimiento, análisis o marketing. Si en el futuro se implementaran, se notificará al usuario mediante un aviso emergente y se solicitará su consentimiento.</p>

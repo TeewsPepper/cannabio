@@ -109,7 +109,7 @@
   border-radius: var(--borde-radius)  var(--borde-radius) 0 0;
 }
 .rowImage:last-child {
-  border-radius: 0 0 var(--borde-radius) var(--borde-radius)  ;
+  border-radius: 0 0 var(--borde-radius) var(--borde-radius);
 }
   .sectionTitle {
     font-size: 2rem;

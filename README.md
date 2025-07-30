@@ -1,69 +1,68 @@
-# React + TypeScript + Vite
+# 🌿 CannaBIO — Cannabis Medicinal Orgánico e Industrial
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sitio web institucional desarrollado para **CannaBIO**, empresa especializada en el cultivo y producción de cannabis medicinal e industrial.  
+Este proyecto fue diseñado para reflejar una estética limpia, profesional y en armonía con la identidad visual provista por el cliente.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔧 Tecnologías utilizadas
 
-## Expanding the ESLint configuration
+- **React + TypeScript** (con Vite)
+- **CSS Modules** para estilos encapsulados
+- **Framer Motion** para animaciones suaves
+- **EmailJS** para envío de formularios sin backend
+- **Netlify** como plataforma de despliegue
+- **SEO primario** con meta-tags OG y favicon
+- Modal de **Políticas de Privacidad**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📁 Estructura del proyecto
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+.
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── Header.tsx
+│   │   ├── Hero.tsx
+│   │   ├── Servicios.tsx
+│   │   ├── SobreNosotros.tsx
+│   │   ├── Formulario.tsx
+│   │   ├── Footer.tsx
+│   │   └── Politicas.tsx
+│   ├── styles/
+│   │   ├── globals.module.css
+│   │   └── [otros módulos].module.css
+│   ├── App.tsx
+│   └── main.tsx
+├── README.md
+└── vite.config.ts`
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Instrucciones de desarrollo local
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm install
+npm run dev
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+
+- El formulario de contacto usa EmailJS. 
+- Las credenciales están configuradas directamente en Formulario.tsx.
+- Si deseas reemplazarlas, crea una cuenta en emailjs.com y actualiza los valores de servicio,    plantilla y usuario.
+
+## Despliegue en producción
+
+El sitio está desplegado en:
+https://cannabios.netlify.app
+
+
+
+📌 Notas adicionales
+
+   - Las fuentes y colores fueron seleccionados según el branding entregado por el cliente.
+
+   - Se incluye configuración SEO básica (favicon, meta-tags OG, título, descripción).
+
+   - El modal de políticas de privacidad es visible desde el footer.

@@ -1,54 +1,10 @@
-/* src/styles/Footer.module.css */
-/* .mainFooter {
-  background-color: var(--color-acento);
-  text-align: center;
-  padding: 2rem 1rem;
-  color: #8b949e;
-  font-size: 0.9rem;
-}
-
-.footerContainer {
-  max-width: 1200px;
-  margin: auto;
-}
-
-.footerContent {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  align-items: center;
-}
-
-.footerCopyright {
-  margin: 0;
-  color: var(--color-secundario);
-}
-
-.footerContact {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.footerLink {
-  color: #58a6ff;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.footerLink:hover,
-.footerLink:focus {
-  color: #1f6feb;
-  text-decoration: underline;
-} */
- /* src/styles/Footer.module.css */
 .mainFooter {
   background-color: var(--color-acento);
   text-align: center;
-  padding: 2rem 1rem;
-  color: #8b949e;
+  padding: var(--espaciado-md) var(--espaciado-sm);
+  color: var(--color-secundario);
   font-size: 0.9rem;
+  font-family: var(--font-principal);
 }
 
 .footerContainer {
@@ -76,18 +32,17 @@
 }
 
 .footerLink {
-  color: #58a6ff;
+  color: var(--color-primario);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .footerLink:hover,
 .footerLink:focus {
-  color: #1f6feb;
+  color: var(--color-secundario);
   text-decoration: underline;
 }
 
-/* Nuevos estilos para los botones sociales */
 .socialLinks {
   display: flex;
   gap: 1.5rem;
@@ -106,21 +61,38 @@
 
 .socialLink:hover,
 .socialLink:focus {
-  color: #58a6ff;
+  color: var(--color-primario);
   transform: translateY(-2px);
 }
 
-/* Estilo específico para WhatsApp */
 .whatsappLink {
-  color: #25d366; /* Verde de WhatsApp */
+  color: #25d366;
 }
 
 .whatsappLink:hover,
 .whatsappLink:focus {
-  color: #128c7e; /* Verde más oscuro al hover */
+  color: #128c7e;
 }
 
-/* Estilo para los íconos */
 .socialIcon {
   font-size: 1.5rem;
+}
+
+.politicaBtn {
+  background: none;
+  border: none;
+  color: var(--color-primario);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+  margin-top: 0.5rem;
+  align-self: center;
+}
+
+.politicaBtn:hover,
+.politicaBtn:focus {
+  color: var(--color-secundario);
+  outline: none;
 }

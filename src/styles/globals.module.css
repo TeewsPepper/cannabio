@@ -1,26 +1,23 @@
-
-
 /* 📦 Reset básico */
 * {
   box-sizing: border-box;
 }
-
 
 body {
   height: 100vh;
   margin: 0;
   padding: 0;
   background-color: var(--color-fondo);
-  /* color: var(--color-texto); */
+  color: var(--color-texto);
   line-height: 1.6;
-  
+  font-family: var(--font-principal);
 }
 
 /* 🎯 Elementos comunes */
 h1 {
-  font-family: manrope;
+  font-family: var(--font-principal);
 }
-  h3, h4, h5, h6 {
+h3, h4, h5, h6 {
   font-family: var(--font-secundaria);
   margin: 0 0 var(--espaciado-sm);
   color: var(--color-texto);
@@ -36,8 +33,6 @@ a {
   transition: all 0.3s ease;
 }
 
-
-
 /* 🔧 Clases utilitarias */
 .section {
   padding: var(--espaciado-lg) var(--espaciado-sm);
@@ -45,31 +40,53 @@ a {
   margin: 0 auto;
 }
 
-/* .btn {
-  display: inline-block;
-  padding: var(--espaciado-sm) var(--espaciado-md);
-  background-color: var(--color-primario);
-  color: var(--color-blanco);
-  border: none;
+/* Modal overlay para política */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Contenido modal */
+.modalContent {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  padding: var(--espaciado-md);
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
   border-radius: var(--borde-radius);
+  box-shadow: var(--sombra-hover);
+  position: relative;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Botón cerrar modal */
+.cerrarBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--color-primario);
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  padding: 0;
+  transition: color 0.3s ease;
 }
 
-.btn:hover {
-  background-color: var(--color-acento);
-  transform: translateY(-2px);
-} */
-/* 
-.card {
-  background-color: var(--color-blanco);
-  border-radius: var(--borde-radius);
-  padding: var(--espaciado-md);
-  box-shadow: var(--sombra-suave);
-  transition: box-shadow 0.3s ease;
+.cerrarBtn:hover,
+.cerrarBtn:focus {
+  color: var(--color-secundario);
+  outline: none;
 }
-
-.card:hover {
-  box-shadow: var(--sombra-hover);
-} */

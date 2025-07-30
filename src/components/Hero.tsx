@@ -49,10 +49,7 @@ export default function Hero() {
             className={styles.subtitle}
           >
             Nos dedicamos al cultivo de Cannabis no psicoactivo para uso
-            medicinal, completamente orgánico. Producimos y exportamos{" "}
-            <span>Biomasa de Cannabis</span>, proveemos <span>Suministros</span>
-            , <span>Infraestructura</span> y la <span>Logística</span> necesaria
-            para que comiences hoy mismo con tu propio plan de negocio.
+            medicinal e industrial. Proveemos biomasa de cáñamo, flores con alto contenido de CBD, extractos y producto terminado. Contamos con una bíofábrica para el desarrollo de sustratos.
           </motion.p>
 
           <motion.div

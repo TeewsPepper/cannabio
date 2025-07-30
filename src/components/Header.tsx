@@ -22,7 +22,7 @@ export default function Header() {
       <div className={styles.container}>
         <div className={styles.logo_container}>
         <h1 className={styles.logo}>CannaBIO</h1>
-        <p>Cannabis Orgánico Medicinal</p>
+        <p>Cannabis Orgánico Medicinal e Industrial</p>
 
         </div>
         <nav className={styles.desktopNav}>

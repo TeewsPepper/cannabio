@@ -45,10 +45,10 @@
 /* Imágenes más altas */
 .rowImage {
   width: 100%;
-  height:100%; /* Aumenté la altura de 200px a 300px */
+  height:100%; 
   object-fit: contain;
   
-  /* border: 2px solid var(--color-secundario); */
+  
   box-shadow: var(--sombra-hover);
   transition: transform 0.3s ease;
 }
@@ -105,6 +105,12 @@
   .rowImage {
     height: auto; /* Altura reducida para móvil */
   }
+  .rowImage:first-child {
+  border-radius: var(--borde-radius)  var(--borde-radius) 0 0;
+}
+.rowImage:last-child {
+  border-radius: 0 0 var(--borde-radius) var(--borde-radius)  ;
+}
   .sectionTitle {
     font-size: 2rem;
   }

@@ -1,4 +1,4 @@
-.container {
+/* .container {
   height: 100vh;
   background-color: var(--color-fondo);
   color: var(--color-texto);
@@ -33,3 +33,89 @@ button {
 button:hover {
   background-color: var(--color-acento);
 }
+.btnGoogle {
+  background-color: #4285f4;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--borde-radius);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btnGoogle:hover {
+  background-color: #357ae8;
+} */
+
+/* AccesoDenegado.module.css */
+
+.container {
+  font-family: var(--font-principal);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-fondo); /* probablemente un fondo oscuro */
+  padding: var(--espaciado-lg);
+}
+
+.box {
+  background: rgba(0, 0, 0, 0.6); /* efecto glassmorphism ligero */
+  border: 1px solid var(--color-primario);
+  border-radius: var(--borde-radius);
+  padding: var(--espaciado-lg);
+  box-shadow: var(--sombra-fuerte);
+  text-align: center;
+  max-width: 400px;
+  backdrop-filter: blur(6px);
+  color: var(--color-texto);
+}
+
+.titulo {
+  color: var(--color-acento); /* como el color vibrante del sitio */
+  font-size: 1.8rem;
+  margin-bottom: var(--espaciado-md);
+}
+
+.parrafo {
+  font-size: 1rem;
+  margin-bottom: var(--espaciado-md);
+  color: var(--color-texto);
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaciado-sm);
+}
+
+.btnGoogle {
+  background-color: #4285f4;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--borde-radius);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  font-family: var(--font-principal);
+}
+
+.btnGoogle:hover {
+  background-color: #357ae8;
+}
+
+.btnVolver {
+  background-color: transparent;
+  color: var(--color-acento);
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--color-acento);
+  border-radius: var(--borde-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btnVolver:hover {
+  background-color: var(--color-acento-translucido);
+}
+

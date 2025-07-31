@@ -1,4 +1,4 @@
-.transmisionContainer {
+/* .transmisionContainer {
   padding: var(--espaciado-sm);
   background-color: var(--color-fondo);
   font-family: var(--font-principal);
@@ -30,14 +30,24 @@
   flex-direction: column;
 }
 
-.videoPlaceholder {
-  background-color: var(--color-gris);
+.videoPlaceholder,
+.videoReal {
+  
   height: 180px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
   color: var(--color-texto);
+  background-color: var(--color-gris);
+  border: none;
+  border-radius: var(--borde-radius) var(--borde-radius) 0 0;
+}
+
+.videoReal {
+  height: auto;
+  aspect-ratio: 16 / 9;
 }
 
 .infoCam {
@@ -76,4 +86,189 @@
 
 .btnVolver:hover {
   background-color: var(--color-acento);
+}
+.btnGoogle {
+  background-color: white;
+  color: #444;
+  border: 1px solid #888;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 1rem;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.btnGoogle:hover {
+  background-color: #f5f5f5;
+} */
+
+
+ .transmisionContainer {
+  padding: var(--espaciado-);
+  background-color: var(--color-secundario);
+  font-family: var(--font-principal);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaciado-md);
+}
+
+.titulo {
+  font-size: 2rem;
+  margin-bottom: var(--espaciado-sm);
+  color: var(--color-texto);
+  text-align: center;
+  font-family: var(--font-secundaria);
+}
+
+.gridCamaras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--espaciado-md);
+}
+
+.camaraCard {
+  background-color: var(--color-blanco);
+  border-radius: var(--borde-radius);
+  box-shadow: var(--sombra-suave);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.camaraCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-hover);
+}
+
+.videoReal {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  border-radius: var(--borde-radius) var(--borde-radius) 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.infoCam {
+  padding: var(--espaciado-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.estado {
+  display: flex;
+  align-items: center;
+  gap: var(--espaciado-xs);
+  font-weight: 500;
+  font-family: var(--font-secundaria);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color-primario);
+}
+
+
+.cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: var(--color-texto);
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid var(--color-primario);
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--espaciado-sm);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+.btnGoogle {
+  background-color: var(--color-blanco);
+  color: var(--color-texto);
+  border: 1px solid var(--color-gris);
+  padding: var(--espaciado-xs) var(--espaciado-sm);
+  border-radius: var(--borde-radius);
+  font-weight: 600;
+  margin-top: var(--espaciado-sm);
+  display: inline-block;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-family: var(--font-secundaria);
+}
+
+.btnGoogle:hover {
+  background-color: var(--color-gris);
+  box-shadow: var(--sombra-suave);
+}
+
+.btnGoogle:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btnLogout {
+  background-color: var(--color-acento);
+  color: var(--color-blanco);
+  padding: var(--espaciado-xs) var(--espaciado-sm);
+  border-radius: var(--borde-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-family: var(--font-secundaria);
+}
+
+.btnLogout:hover {
+  background-color: var(--color-texto);
+  box-shadow: var(--sombra-suave);
+}
+
+.btnLogout:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btnVolver {
+  background-color: var(--color-primario);
+  color: var(--color-blanco);
+  padding: var(--espaciado-xs) var(--espaciado-sm);
+  border-radius: var(--borde-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-family: var(--font-secundaria);
+}
+
+.btnVolver:hover {
+  background-color: var(--color-acento);
+  box-shadow: var(--sombra-suave);
+}
+
+.footerButtons {
+  display: flex;
+  justify-content: center;
+  gap: var(--espaciado-md);
+  margin-top: var(--espaciado-lg);
+  flex-wrap: wrap;
 }

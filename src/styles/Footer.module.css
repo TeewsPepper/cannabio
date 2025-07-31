@@ -96,3 +96,17 @@
   color: var(--color-secundario);
   outline: none;
 }
+
+.transmisionLink {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-primario);
+  text-decoration: underline;
+  margin-top: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.transmisionLink:hover,
+.transmisionLink:focus {
+  color: var(--color-secundario);
+}

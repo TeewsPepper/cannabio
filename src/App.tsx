@@ -1,36 +1,27 @@
-import { useState } from "react";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import Servicios from "./components/Servicios";
-import SobreNosotros from "./components/SobreNosotros";
-import Formulario from "./components/Formulario";
-import styles from "./styles/globals.module.css";
-import Footer from "./components/Footer";
-import Politica from "./components/Politica";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Home";
+import Transmision from "./Transmision";
+import RutaProtegida from "../src/components/RutaProtegida";
 
-
-const App = () => {
-  const [mostrarPoliticas, setMostrarPoliticas] = useState(false);
-
-  const togglePoliticas = () => {
-    setMostrarPoliticas((prev) => !prev);
-  };
+const App: React.FC = () => {
+  // Simulación temporal — esto luego se consulta al backend
+  const [isAuthenticated] = useState(false);
 
   return (
-    <div className={styles.app}>
-      <Header />
-      <main>
-        <Hero />
-        <Servicios />
-        <SobreNosotros />
-        <Formulario />
-      </main>
-
-      <Footer onTogglePoliticas={togglePoliticas} />
-
-      <Politica visible={mostrarPoliticas} onClose={togglePoliticas} />
-
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/transmision"
+          element={
+            <RutaProtegida isAuthenticated={isAuthenticated}>
+              <Transmision />
+            </RutaProtegida>
+          }
+        />
+      </Routes>
+    </Router>
   );
 };
 

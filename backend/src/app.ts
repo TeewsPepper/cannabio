@@ -1,5 +1,6 @@
 import express from "express";
 import session from "express-session";
+import { getRequiredEnv, getOptionalEnv } from "./utils/env";
 import passport from "passport";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -22,37 +23,46 @@ declare global {
 const app = express();
 
 // Configuración CORS mejorada
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true,
-  methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cache-Control'],
-  exposedHeaders: ['set-cookie'],
-  maxAge: 86400
-}));
+app.use(
+  cors({
+    origin: getOptionalEnv('FRONTEND_URL', 'http://localhost:5173'),
+    credentials: true,
+    methods: ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
+    exposedHeaders: ["set-cookie"],
+    maxAge: 86400,
+  })
+);
 
 // Middleware para headers adicionales
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Cache-Control');
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Cache-Control"
+  );
   next();
 });
 
 // Configuración de sesión
-app.use(session({
-  secret: process.env.SESSION_SECRET || "secret-key-de-desarrollo",
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === "production",
-    httpOnly: true,
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    maxAge: 24 * 60 * 60 * 1000 // 1 día
-  },
-  name: "session.cookie",
-  store: process.env.NODE_ENV === "production" ? 
-    new (require("connect-pg-simple")(session))() : undefined
-}));
+app.use(
+  session({
+    secret: getRequiredEnv("SESSION_SECRET"),
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 24 * 60 * 60 * 1000, // 1 día
+    },
+    name: "session.cookie",
+    store:
+      process.env.NODE_ENV === "production"
+        ? new (require("connect-pg-simple")(session))()
+        : undefined,
+  })
+);
 
 // Inicialización de Passport
 app.use(passport.initialize());
@@ -61,36 +71,40 @@ app.use(passport.session());
 // Configuración de la estrategia Google
 const authorizedUsers = new Set(process.env.AUTHORIZED_USERS?.split(",") || []);
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID!,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL || "http://localhost:3000/auth/google/callback",
-  passReqToCallback: true
-}, 
-(req, accessToken, refreshToken, profile, done) => {
-  try {
-    const email = profile.emails?.[0]?.value;
-    
-    if (!email) {
-      return done(new Error("Email no disponible"));
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: getRequiredEnv("GOOGLE_CLIENT_ID"),
+      clientSecret: getRequiredEnv("GOOGLE_CLIENT_SECRET"),
+      callbackURL: getRequiredEnv("GOOGLE_CALLBACK_URL"),
+      passReqToCallback: true,
+    },
+    (req, accessToken, refreshToken, profile, done) => {
+      try {
+        const email = profile.emails?.[0]?.value;
+
+        if (!email) {
+          return done(new Error("Email no disponible"));
+        }
+
+        if (!authorizedUsers.has(email)) {
+          return done(new Error("Usuario no autorizado"));
+        }
+
+        const user: Express.User = {
+          id: profile.id,
+          email: email,
+          name: profile.displayName,
+          avatar: profile.photos?.[0]?.value,
+        };
+
+        return done(null, user);
+      } catch (error) {
+        return done(error as Error);
+      }
     }
-
-    if (!authorizedUsers.has(email)) {
-      return done(new Error("Usuario no autorizado"));
-    }
-
-    const user: Express.User = {
-      id: profile.id,
-      email: email,
-      name: profile.displayName,
-      avatar: profile.photos?.[0]?.value
-    };
-
-    return done(null, user);
-  } catch (error) {
-    return done(error as Error);
-  }
-}));
+  )
+);
 
 // Serialización del usuario
 passport.serializeUser((user: Express.User, done) => {
@@ -108,19 +122,23 @@ passport.deserializeUser(async (id: string, done) => {
 });
 
 // Rutas de autenticación
-app.get("/auth/google", passport.authenticate("google", { 
-  scope: ["profile", "email"],
-  prompt: "select_account"
-}));
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    prompt: "select_account",
+  })
+);
 
-app.get("/auth/google/callback", 
-  passport.authenticate("google", { 
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
     failureRedirect: "/auth/failure",
-    session: true
+    session: true,
   }),
   (req, res) => {
     // Redirección directa sin abrir nueva ventana
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const frontendUrl = getOptionalEnv("FRONTEND_URL", "http://localhost:5173");
     res.redirect(`${frontendUrl}/transmision`);
   }
 );
@@ -130,7 +148,11 @@ app.get("/auth/failure", (req, res) => {
 });
 
 // Middleware de autenticación
-function ensureAuthenticated(req: express.Request, res: express.Response, next: express.NextFunction) {
+function ensureAuthenticated(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) {
   if (req.isAuthenticated()) {
     return next();
   }
@@ -139,9 +161,9 @@ function ensureAuthenticated(req: express.Request, res: express.Response, next: 
 
 // Ruta protegida
 app.get("/transmision", ensureAuthenticated, (req, res) => {
-  res.json({ 
+  res.json({
     message: "Acceso autorizado",
-    user: req.user 
+    user: req.user,
   });
 });
 
@@ -150,7 +172,7 @@ app.get("/api/session", (req, res) => {
   res.json({
     authenticated: req.isAuthenticated(),
     user: req.user || null,
-    sessionId: req.sessionID
+    sessionId: req.sessionID,
   });
 });
 

@@ -5,8 +5,9 @@ import passport from "passport";
 import dotenv from "dotenv";
 import cors from "cors";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import path from 'path';
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '../.env') });
 
 // Interface para el usuario
 declare global {
@@ -51,16 +52,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production", // true en Render
       httpOnly: true,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000, // 1 día
     },
-    name: "session.cookie",
-    store:
-      process.env.NODE_ENV === "production"
-        ? new (require("connect-pg-simple")(session))()
-        : undefined,
+    name: "session.cookie"
   })
 );
 

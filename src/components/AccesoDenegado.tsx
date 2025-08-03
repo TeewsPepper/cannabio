@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "@/styles/AccesoDenegado.module.css";
+import styles from "../styles/AccesoDenegado.module.css";
 
 const AccesoDenegado: React.FC = () => {
   return (

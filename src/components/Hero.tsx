@@ -1,5 +1,5 @@
-import styles from "@/styles/Hero.module.css";
-import logo from "@img/cannabio-logo.jpg";
+import styles from "../styles/Hero.module.css";
+import logo from "../assets/img/cannabio-logo.jpg";
 import { motion } from "framer-motion";
 
 export default function Hero() {

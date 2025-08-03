@@ -1,5 +1,5 @@
 
-import styles from "@/styles/Footer.module.css";
+import styles from "../styles/Footer.module.css";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 

@@ -1,8 +1,8 @@
 
 import { useEffect, useState } from "react";
-import styles from "@/styles/Transmision.module.css";
+import styles from "./styles/Transmision.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import YouTubeEmbed from "@/components/YouTubeEmbed";
+import YouTubeEmbed from "./components/YouTubeEmbed";
 
 const camaras = [
   { 

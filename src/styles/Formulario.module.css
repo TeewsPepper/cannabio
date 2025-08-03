@@ -3,7 +3,7 @@
       rgba(15, 42, 32, 0.6),
       rgba(15, 42, 32, 0.6)
     ),
-    url('@img/cannabio-08.jpg') no-repeat center/cover;
+    url('../assets/img/cannabio-08.jpg') no-repeat center/cover;
   color: var(--color-blanco);
   padding: var(--espaciado-lg) var(--espaciado-sm);
   box-shadow: var(--sombra-suave);

@@ -9,10 +9,7 @@
     "skipLibCheck": true,
     "moduleResolution": "node",
     "baseUrl": "./src",
-    "paths": {
-      "@utils/*": ["./utils/*"],
-      "@types/*": ["./types/*"]
-    },
+    
     "typeRoots": ["./src/types", "./node_modules/@types"],
     "sourceMap": true,
     "removeComments": true,

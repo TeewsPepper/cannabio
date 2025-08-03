@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import Servicios from "@/components/Servicios";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import Servicios from "./components/Servicios";
 import SobreNosotros from "./components/SobreNosotros";
-import Formulario from "@/components/Formulario";
-import styles from "@/styles/globals.module.css";
-import Footer from "@/components/Footer";
-import Politica from "@/components/Politica";
+import Formulario from "./components/Formulario";
+import styles from "./styles/globals.module.css";
+import Footer from "./components/Footer";
+import Politica from "./components/Politica";
 
 
 const Home = () => {

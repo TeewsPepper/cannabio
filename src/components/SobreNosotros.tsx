@@ -1,7 +1,7 @@
-import styles from '@/styles/SobreNosotros.module.css';
-import cannabioTres from '@img/cannabio-03.jpg';
-import cannabioCinco from '@img/cannabio-05.jpg';
-import cannabioSeis from '@img/cannabio-06.jpg';
+import styles from '../styles/SobreNosotros.module.css';
+import cannabioTres from '../assets/img/cannabio-03.jpg';
+import cannabioCinco from '../assets/img/cannabio-05.jpg';
+import cannabioSeis from '../assets/img/cannabio-06.jpg';
 
 const SobreNosotros = () => {
   return (

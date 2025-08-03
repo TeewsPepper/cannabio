@@ -77,13 +77,7 @@ export default defineConfig({
     }
   },
 
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@assets': path.resolve(__dirname, './src/assets'),
-      '@img': path.resolve(__dirname, './src/assets/img'),
-    },
-  },
+
 
   define: {
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),

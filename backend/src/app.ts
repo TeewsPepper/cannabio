@@ -1,32 +1,21 @@
+// src/app.ts
 import express from "express";
 import session from "express-session";
-import { getRequiredEnv, getOptionalEnv } from "./utils/env";
-import passport from "passport";
 import dotenv from "dotenv";
 import cors from "cors";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import path from 'path';
+import path from "path";
 
-dotenv.config({ path: path.join(__dirname, '../.env') });
+dotenv.config({ path: path.join(__dirname, "../.env") });
 
-// Interface para el usuario
-declare global {
-  namespace Express {
-    interface User {
-      id: string;
-      email?: string;
-      name?: string;
-      avatar?: string;
-    }
-  }
-}
+// Importamos la configuración centralizada de Passport
+import passport from "./auth/passport";
 
 const app = express();
 
 // Configuración CORS mejorada
 app.use(
   cors({
-    origin: getOptionalEnv('FRONTEND_URL', 'http://localhost:5173'),
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
@@ -35,7 +24,7 @@ app.use(
   })
 );
 
-// Middleware para headers adicionales
+// Middleware para headers adicionales (opcional, por las dudas)
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
@@ -48,7 +37,7 @@ app.use((req, res, next) => {
 // Configuración de sesión
 app.use(
   session({
-    secret: getRequiredEnv("SESSION_SECRET"),
+    secret: process.env.SESSION_SECRET || "default_secret",
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -57,7 +46,7 @@ app.use(
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000, // 1 día
     },
-    name: "session.cookie"
+    name: "session.cookie",
   })
 );
 
@@ -65,58 +54,17 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Configuración de la estrategia Google
-const authorizedUsers = new Set(process.env.AUTHORIZED_USERS?.split(",") || []);
-
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: getRequiredEnv("GOOGLE_CLIENT_ID"),
-      clientSecret: getRequiredEnv("GOOGLE_CLIENT_SECRET"),
-      callbackURL: getRequiredEnv("GOOGLE_CALLBACK_URL"),
-      passReqToCallback: true,
-    },
-    (req, accessToken, refreshToken, profile, done) => {
-      try {
-        const email = profile.emails?.[0]?.value;
-
-        if (!email) {
-          return done(new Error("Email no disponible"));
-        }
-
-        if (!authorizedUsers.has(email)) {
-          return done(new Error("Usuario no autorizado"));
-        }
-
-        const user: Express.User = {
-          id: profile.id,
-          email: email,
-          name: profile.displayName,
-          avatar: profile.photos?.[0]?.value,
-        };
-
-        return done(null, user);
-      } catch (error) {
-        return done(error as Error);
-      }
-    }
-  )
-);
-
-// Serialización del usuario
-passport.serializeUser((user: Express.User, done) => {
-  done(null, user.id);
-});
-
-// Deserialización del usuario
-passport.deserializeUser(async (id: string, done) => {
-  try {
-    // En una app real, aquí buscarías el usuario en tu DB
-    done(null, { id } as Express.User);
-  } catch (error) {
-    done(error);
+// Middleware para verificar autenticación
+function ensureAuthenticated(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) {
+  if (req.isAuthenticated()) {
+    return next();
   }
-});
+  res.status(401).json({ error: "No autenticado" });
+}
 
 // Rutas de autenticación
 app.get(
@@ -134,8 +82,7 @@ app.get(
     session: true,
   }),
   (req, res) => {
-    // Redirección directa sin abrir nueva ventana
-    const frontendUrl = getOptionalEnv("FRONTEND_URL", "http://localhost:5173");
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
     res.redirect(`${frontendUrl}/transmision`);
   }
 );
@@ -143,18 +90,6 @@ app.get(
 app.get("/auth/failure", (req, res) => {
   res.status(401).json({ error: "Error en autenticación con Google" });
 });
-
-// Middleware de autenticación
-function ensureAuthenticated(
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.status(401).json({ error: "No autenticado" });
-}
 
 // Ruta protegida
 app.get("/transmision", ensureAuthenticated, (req, res) => {
@@ -164,7 +99,7 @@ app.get("/transmision", ensureAuthenticated, (req, res) => {
   });
 });
 
-// Ruta de sesión
+// Ruta para obtener estado de sesión
 app.get("/api/session", (req, res) => {
   res.json({
     authenticated: req.isAuthenticated(),
@@ -174,7 +109,7 @@ app.get("/api/session", (req, res) => {
 });
 
 // Logout
-app.post("/auth/logout", (req, res) => {
+app.post("/auth/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) {
       return res.status(500).json({ error: "Error al cerrar sesión" });

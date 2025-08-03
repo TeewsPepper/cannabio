@@ -4,15 +4,17 @@ export function ensureAuthenticated(req: Request, res: Response, next: NextFunct
   console.log("🛡️ Verificando autenticación...");
   console.log("👤 req.user:", req.user);
   console.log("💾 req.session:", req.session);
+
   if (req.isAuthenticated()) {
     const authorizedEmails = process.env.AUTHORIZED_USERS?.split(",") || [];
-    const userEmail = req.user?.email;
+    const userEmail = (req.user as any)?.email; // Puedes ajustar el tipo si quieres
+
     console.log("📧 Correo del usuario:", userEmail);
     console.log("✅ Lista de autorizados:", authorizedEmails);
 
     if (userEmail && authorizedEmails.includes(userEmail)) {
       console.log("✅ Usuario autorizado");
-      return next(); // Usuario autorizado ✅
+      return next();
     }
     console.log("⛔ Usuario NO autorizado");
     return res.status(403).json({ message: "Acceso denegado: usuario no autorizado." });

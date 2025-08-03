@@ -13,7 +13,8 @@
     "typeRoots": ["./src/types", "./node_modules/@types"],
     "sourceMap": true,
     "removeComments": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node", "express"] 
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]

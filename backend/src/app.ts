@@ -1,14 +1,13 @@
-// src/app.ts
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import session from "express-session";
 import dotenv from "dotenv";
 import cors from "cors";
 import path from "path";
 
-dotenv.config({ path: path.join(__dirname, "../.env") });
-
 // Importamos la configuración centralizada de Passport
 import passport from "./auth/passport";
+
+dotenv.config({ path: path.join(__dirname, "../.env") });
 
 const app = express();
 
@@ -24,8 +23,8 @@ app.use(
   })
 );
 
-// Middleware para headers adicionales (opcional, por las dudas)
-app.use((req, res, next) => {
+// Middleware para headers adicionales (opcional)
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
     "Access-Control-Allow-Headers",
@@ -41,7 +40,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production", // true en Render
+      secure: process.env.NODE_ENV === "production", // true en producción
       httpOnly: true,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000, // 1 día
@@ -56,9 +55,9 @@ app.use(passport.session());
 
 // Middleware para verificar autenticación
 function ensureAuthenticated(
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) {
   if (req.isAuthenticated()) {
     return next();
@@ -81,18 +80,18 @@ app.get(
     failureRedirect: "/auth/failure",
     session: true,
   }),
-  (req, res) => {
+  (req: Request, res: Response) => {
     const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
     res.redirect(`${frontendUrl}/transmision`);
   }
 );
 
-app.get("/auth/failure", (req, res) => {
+app.get("/auth/failure", (req: Request, res: Response) => {
   res.status(401).json({ error: "Error en autenticación con Google" });
 });
 
 // Ruta protegida
-app.get("/transmision", ensureAuthenticated, (req, res) => {
+app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => {
   res.json({
     message: "Acceso autorizado",
     user: req.user,
@@ -100,7 +99,7 @@ app.get("/transmision", ensureAuthenticated, (req, res) => {
 });
 
 // Ruta para obtener estado de sesión
-app.get("/api/session", (req, res) => {
+app.get("/api/session", (req: Request, res: Response) => {
   res.json({
     authenticated: req.isAuthenticated(),
     user: req.user || null,
@@ -109,7 +108,7 @@ app.get("/api/session", (req, res) => {
 });
 
 // Logout
-app.post("/auth/logout", (req, res, next) => {
+app.post("/auth/logout", (req: Request, res: Response, next: NextFunction) => {
   req.logout((err) => {
     if (err) {
       return res.status(500).json({ error: "Error al cerrar sesión" });
@@ -122,7 +121,7 @@ app.post("/auth/logout", (req, res, next) => {
 });
 
 // Ruta de prueba
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("Servidor backend funcionando");
 });
 

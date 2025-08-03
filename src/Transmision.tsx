@@ -1,5 +1,5 @@
-/* 
-import { useEffect, useState } from "react";
+
+/* import { useEffect, useState } from "react";
 import styles from "./styles/Transmision.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import YouTubeEmbed from "./components/YouTubeEmbed";
@@ -175,71 +175,183 @@ const Transmision = () => {
 export default Transmision; */
 import { useEffect, useState } from "react";
 import styles from "./styles/Transmision.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import YouTubeEmbed from "./components/YouTubeEmbed";
 
-type UserSession = {
-  email: string;
-};
+const camaras = [
+  { 
+    nombre: "Cam 1", 
+    area: "Área de cultivo abierta", 
+    estado: "activa",
+    videoId: "dQw4w9WgXcQ" // ID de ejemplo, reemplaza con tus IDs reales
+  },
+  { 
+    nombre: "Cam 2", 
+    area: "Área de cultivo cerrada", 
+    estado: "activa",
+    videoId: "dQw4w9WgXcQ"
+  },
+  { 
+    nombre: "Cam 3", 
+    area: "Área de secado", 
+    estado: "activa",
+    videoId: "dQw4w9WgXcQ"
+  },
+  { 
+    nombre: "Cam 4", 
+    area: "Área de acopio", 
+    estado: "activa",
+    videoId: "dQw4w9WgXcQ"
+  },
+];
 
 const Transmision = () => {
-  const [session, setSession] = useState<UserSession | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  // Uso de variable de entorno para backend (asegúrate que está definida)
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const response = await fetch(`${backendUrl}/api/session`, {
-          credentials: "include",
+  const handleLogout = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${BACKEND_URL}/auth/logout`, {
+        credentials: "include",
+        method: "POST",
+      });
+
+      if (!response.ok) throw new Error("Error al cerrar sesión");
+
+      // Limpieza de estado y cookies
+      setIsAuthenticated(false);
+      localStorage.removeItem("session_token");
+      document.cookie
+        .split(";")
+        .forEach((c) => {
+          document.cookie =
+            c.trim().split("=")[0] +
+            "=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         });
 
-        if (response.ok) {
-          const data = await response.json();
-          setSession(data.user);
-        } else {
-          setSession(null);
-        }
-      } catch (err) {
-        setError("Error al verificar la sesión.");
-      } finally {
-        setLoading(false);
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const verifyAuth = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${BACKEND_URL}/api/session`, {
+        credentials: "include",
+        headers: {
+          "Cache-Control": "no-cache",
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) throw new Error("Error de autenticación");
+
+      const data = await response.json();
+      setIsAuthenticated(data.authenticated);
+
+      if (!data.authenticated) {
+        localStorage.removeItem("session_token");
+        document.cookie = "connect.sid=; Max-Age=0; path=/;";
       }
-    };
+    } catch (error) {
+      console.error("Error verificando autenticación:", error);
+      setIsAuthenticated(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    checkSession();
-  }, [backendUrl]);
+  const handleLogin = () => {
+    window.location.href = `${BACKEND_URL}/auth/google`;
+  };
 
-  if (loading) return <p className={styles.loading}>Cargando...</p>;
-  if (error) return <p className={styles.error}>{error}</p>;
+  useEffect(() => {
+    verifyAuth();
+  }, []);
+
+  if (isLoading || isAuthenticated === null) {
+    return (
+      <div className={styles.cargando}>
+        <div className={styles.spinner}></div>
+        <p>Cargando...</p>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <main className={styles.transmisionContainer}>
+        <h1 className={styles.titulo}>Acceso restringido</h1>
+        <p>Debes iniciar sesión con tu cuenta autorizada de Google para acceder.</p>
+
+        <button
+          onClick={handleLogin}
+          className={styles.btnGoogle}
+          disabled={isLoading}
+        >
+          {isLoading ? "Cargando..." : "Iniciar sesión con Google"}
+        </button>
+
+        <Link to="/">
+          <button className={styles.btnVolver}>Volver al inicio</button>
+        </Link>
+      </main>
+    );
+  }
 
   return (
-    <div className={styles.transmisionContainer}>
-      <h1 className={styles.title}>Transmisión en vivo</h1>
+    <main className={styles.transmisionContainer}>
+      <h1 className={styles.titulo}>Monitor Zone</h1>
 
-      {!session ? (
-        <div className={styles.accessDenied}>
-          <p>Acceso denegado. Debes iniciar sesión para ver esta transmisión.</p>
-          <a href={`${backendUrl}/auth/google`} className={styles.loginButton}>
-            Iniciar sesión con Google
-          </a>
-          <Link to="/" className={styles.backLink}>Volver al inicio</Link>
-        </div>
-      ) : (
-        <div className={styles.streamWrapper}>
-          <p className={styles.userInfo}>Conectado como: {session.email}</p>
-          <iframe
-            src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID&autoplay=1"
-            title="Transmisión en vivo"
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-            className={styles.iframe}
-          />
-        </div>
-      )}
-    </div>
+      <section className={styles.gridCamaras}>
+        {camaras.map((cam, i) => (
+          <div key={i} className={styles.camaraCard}>
+            <YouTubeEmbed
+              videoId={cam.videoId}
+              title={`Transmisión en vivo - ${cam.nombre}`}
+              className={styles.videoReal}
+            />
+            <div className={styles.infoCam}>
+              <div>
+                <strong>{cam.nombre}</strong>
+                <br />
+                <span>{cam.area}</span>
+              </div>
+              <div className={styles.estado}>
+                <span className={styles.dot}></span>
+                <span>{cam.estado}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <div className={styles.footerButtons}>
+        <button
+          className={styles.btnLogout}
+          onClick={handleLogout}
+          aria-label="Cerrar sesión"
+          disabled={isLoading}
+        >
+          {isLoading ? "Cerrando sesión..." : "Cerrar sesión"}
+        </button>
+
+        <Link to="/">
+          <button className={styles.btnVolver}>Volver al inicio</button>
+        </Link>
+      </div>
+    </main>
   );
 };
 
 export default Transmision;
+

@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const authorizedUsers = new Set(process.env.AUTHORIZED_USERS?.split(",") || []);
-
+console.log("Usuarios autorizados:", authorizedUsers);
 passport.use(
   new GoogleStrategy(
     {
@@ -18,7 +18,7 @@ passport.use(
     (req, accessToken, refreshToken, profile, done) => {
       try {
         const email = profile.emails?.[0]?.value;
-
+        console.log("Email recibido desde Google:", email); // ✔️ Verifica que Google esté enviando el correo correcto
         if (!email) {
           return done(new Error("Email no disponible"));
         }

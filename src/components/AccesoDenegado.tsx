@@ -10,7 +10,7 @@ const AccesoDenegado: React.FC = () => {
 
         <div className={styles.buttons}>
           <a
-            href="http://localhost:3000/auth/google"
+            href={`${import.meta.env.VITE_BACKEND_URL}/auth/google`}
             className={styles.btnGoogle}
           >
             Iniciar sesión con Google

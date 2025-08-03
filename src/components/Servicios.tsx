@@ -2,7 +2,7 @@
 import { FaLeaf, FaShippingFast, FaHandsHelping, FaMicroscope, FaSolarPanel, FaRegChartBar } from 'react-icons/fa';
 import {  GiReceiveMoney } from 'react-icons/gi';
 import { motion } from 'framer-motion';
-import styles from '../styles/Servicios.module.css';
+import styles from '@/styles/Servicios.module.css';
 
 const servicios = [
   {

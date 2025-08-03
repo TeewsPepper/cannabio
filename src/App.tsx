@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./Home";
-import Transmision from "./Transmision";
-import RutaProtegida from "./components/RutaProtegida";
+import Home from "@/Home";
+import Transmision from "@/Transmision";
+import RutaProtegida from "@/components/RutaProtegida";
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);

@@ -1,5 +1,5 @@
 // src/components/Politica.tsx
-import styles from '../styles/Politica.module.css';
+import styles from '@/styles/Politica.module.css';
 
 interface Props {
   visible: boolean;

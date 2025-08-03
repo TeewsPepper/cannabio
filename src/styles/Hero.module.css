@@ -107,16 +107,7 @@
   border-color: var(--color-secundario);
 }
 
-/* Responsivo */
-/* @media (max-width: 992px) {
-  .content {
-    max-width: 700px;
-  }
-  
-  .subtitle {
-    font-size: 1.2rem;
-  }
-} */
+
 
 @media (max-width: 768px) {
   .hero, .overlay {

@@ -1,6 +1,6 @@
 import express from "express";
 import session from "express-session";
-import { getRequiredEnv, getOptionalEnv } from "./utils/env";
+import { getRequiredEnv, getOptionalEnv } from "@utils/env";
 import passport from "passport";
 import dotenv from "dotenv";
 import cors from "cors";

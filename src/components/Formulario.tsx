@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
-import styles from '../styles/Formulario.module.css';
+import styles from '@/styles/Formulario.module.css';
 
 type FormValues = {
   nombre: string;

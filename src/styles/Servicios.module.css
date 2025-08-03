@@ -1,7 +1,7 @@
 .servicios {
   padding: var(--espaciado-md);
   background: linear-gradient(rgba(15, 42, 32, 0.6), rgba(15, 42, 32, 0.6)),
-    url("@img/cannabio-07.jpg") no-repeat center/cover;
+    url("../assets/img/cannabio-07.jpg") no-repeat center/cover;
   background-repeat: no-repeat;
   background-size: cover;
 

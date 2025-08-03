@@ -3,13 +3,13 @@
 
 :root {
   /* 🎨 Colores */
-  --color-primario: #158652;       /* Celeste vibrante */
+  --color-primario: #158652;      
   --color-secundario: #e2d36e;     
-  --color-fondo: #fefefe;          /* Blanco puro con leve tono cálido */
-  --color-texto: #0f172a;          /* Azul muy oscuro para contraste */
-  --color-acento: #093538;         /* Amarillo moderno / acento cálido */
+  --color-fondo: #fefefe;          
+  --color-texto: #0f172a;          
+  --color-acento: #093538;         
   --color-blanco: #ffffff;
-  --color-gris: #e2e8f0;           /* Gris suave para bordes y UI */
+  --color-gris: #e2e8f0;           
 
   
   /* 🧩 Bordes y sombras */
@@ -60,8 +60,4 @@ h1, h2, h3, h4, h5 {
   font-weight: 600;
 }
 
-/* img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-} */
+

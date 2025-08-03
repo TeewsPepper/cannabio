@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Turn as Hamburger } from 'hamburger-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import styles from '../styles/Header.module.css'
+import styles from '@/styles/Header.module.css'
 
 const navLinks = [
   { label: 'Inicio', href: '#inicio' },

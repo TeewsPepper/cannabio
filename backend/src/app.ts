@@ -46,29 +46,15 @@ app.use(
     secret: process.env.SESSION_SECRET || "default_secret",
     resave: false,
     saveUninitialized: false,
-    name: "session.cookie",
     cookie: {
       secure: true,           // 🔥 obligatorio para SameSite: 'none'
       httpOnly: true,
       sameSite: "none",       // 🔥 permite cookies entre dominios (Netlify → Render)
       maxAge: 24 * 60 * 60 * 1000,
     },
-  })
-);
-/* app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "default_secret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === "production", // true en producción
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      maxAge: 24 * 60 * 60 * 1000, // 1 día
-    },
     name: "session.cookie",
   })
-); */
+);
 
 // Inicialización de Passport
 app.use(passport.initialize());
@@ -101,11 +87,20 @@ app.get(
     failureRedirect: "/auth/failure",
     session: true,
   }),
-  (req: Request, res: Response) => {
-    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
-    res.redirect(`${frontendUrl}/transmision`);
+  (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return res.redirect("/auth/failure");
+    }
+
+    req.login(req.user, (err) => {
+      if (err) return next(err);
+      const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+      return res.redirect(`${frontendUrl}/transmision`);
+    });
   }
 );
+
+
 
 app.get("/auth/failure", (req: Request, res: Response) => {
   res.status(401).json({ error: "Error en autenticación con Google" });

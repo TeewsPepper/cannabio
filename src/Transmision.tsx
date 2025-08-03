@@ -1,4 +1,3 @@
-
 /* import { useEffect, useState } from "react";
 import styles from "./styles/Transmision.module.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -179,29 +178,29 @@ import { Link, useNavigate } from "react-router-dom";
 import YouTubeEmbed from "./components/YouTubeEmbed";
 
 const camaras = [
-  { 
-    nombre: "Cam 1", 
-    area: "Área de cultivo abierta", 
+  {
+    nombre: "Cam 1",
+    area: "Área de cultivo abierta",
     estado: "activa",
-    videoId: "dQw4w9WgXcQ" // ID de ejemplo, reemplaza con tus IDs reales
+    videoId: "dQw4w9WgXcQ", // ID de ejemplo, reemplaza con tus IDs reales
   },
-  { 
-    nombre: "Cam 2", 
-    area: "Área de cultivo cerrada", 
+  {
+    nombre: "Cam 2",
+    area: "Área de cultivo cerrada",
     estado: "activa",
-    videoId: "dQw4w9WgXcQ"
+    videoId: "dQw4w9WgXcQ",
   },
-  { 
-    nombre: "Cam 3", 
-    area: "Área de secado", 
+  {
+    nombre: "Cam 3",
+    area: "Área de secado",
     estado: "activa",
-    videoId: "dQw4w9WgXcQ"
+    videoId: "dQw4w9WgXcQ",
   },
-  { 
-    nombre: "Cam 4", 
-    area: "Área de acopio", 
+  {
+    nombre: "Cam 4",
+    area: "Área de acopio",
     estado: "activa",
-    videoId: "dQw4w9WgXcQ"
+    videoId: "dQw4w9WgXcQ",
   },
 ];
 
@@ -211,7 +210,8 @@ const Transmision = () => {
   const navigate = useNavigate();
 
   // Uso de variable de entorno para backend (asegúrate que está definida)
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+  const BACKEND_URL =
+    import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
   const handleLogout = async () => {
     try {
@@ -226,13 +226,12 @@ const Transmision = () => {
       // Limpieza de estado y cookies
       setIsAuthenticated(false);
       localStorage.removeItem("session_token");
-      document.cookie
-        .split(";")
-        .forEach((c) => {
-          document.cookie =
-            c.trim().split("=")[0] +
-            "=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        });
+      document.cookie.split(";").forEach((c) => {
+        const cookieName = c.trim().split("=")[0];
+        if (cookieName === "session.cookie") {
+          document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        }
+      });
 
       navigate("/", { replace: true });
     } catch (error) {
@@ -260,7 +259,7 @@ const Transmision = () => {
 
       if (!data.authenticated) {
         localStorage.removeItem("session_token");
-        document.cookie = "connect.sid=; Max-Age=0; path=/;";
+        document.cookie = "session.cookie=; Max-Age=0; path=/;";
       }
     } catch (error) {
       console.error("Error verificando autenticación:", error);
@@ -291,7 +290,9 @@ const Transmision = () => {
     return (
       <main className={styles.transmisionContainer}>
         <h1 className={styles.titulo}>Acceso restringido</h1>
-        <p>Debes iniciar sesión con tu cuenta autorizada de Google para acceder.</p>
+        <p>
+          Debes iniciar sesión con tu cuenta autorizada de Google para acceder.
+        </p>
 
         <button
           onClick={handleLogin}
@@ -354,4 +355,3 @@ const Transmision = () => {
 };
 
 export default Transmision;
-

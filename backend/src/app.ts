@@ -46,6 +46,20 @@ app.use(
     secret: process.env.SESSION_SECRET || "default_secret",
     resave: false,
     saveUninitialized: false,
+    name: "session.cookie",
+    cookie: {
+      secure: true,           // 🔥 obligatorio para SameSite: 'none'
+      httpOnly: true,
+      sameSite: "none",       // 🔥 permite cookies entre dominios (Netlify → Render)
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+  })
+);
+/* app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "default_secret",
+    resave: false,
+    saveUninitialized: false,
     cookie: {
       secure: process.env.NODE_ENV === "production", // true en producción
       httpOnly: true,
@@ -54,7 +68,7 @@ app.use(
     },
     name: "session.cookie",
   })
-);
+); */
 
 // Inicialización de Passport
 app.use(passport.initialize());

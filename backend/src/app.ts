@@ -7,7 +7,14 @@ import path from "path";
 // Importamos la configuración centralizada de Passport
 import passport from "./auth/passport";
 
-dotenv.config({ path: path.join(__dirname, "../.env") });
+// Si no está definida, asignamos "development" por defecto
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
+
+// Elegimos el archivo .env según el entorno
+const envFile =
+  process.env.NODE_ENV === "production" ? "../.env.production" : "../.env";
+
+dotenv.config({ path: path.join(__dirname, envFile) });
 
 const app = express();
 

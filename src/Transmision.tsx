@@ -1,4 +1,4 @@
-
+/* 
 import { useEffect, useState } from "react";
 import styles from "./styles/Transmision.module.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -169,6 +169,76 @@ const Transmision = () => {
         </Link>
       </div>
     </main>
+  );
+};
+
+export default Transmision; */
+import { useEffect, useState } from "react";
+import styles from "./styles/Transmision.module.css";
+import { Link } from "react-router-dom";
+
+type UserSession = {
+  email: string;
+};
+
+const Transmision = () => {
+  const [session, setSession] = useState<UserSession | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const response = await fetch(`${backendUrl}/api/session`, {
+          credentials: "include",
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setSession(data.user);
+        } else {
+          setSession(null);
+        }
+      } catch (err) {
+        setError("Error al verificar la sesión.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkSession();
+  }, [backendUrl]);
+
+  if (loading) return <p className={styles.loading}>Cargando...</p>;
+  if (error) return <p className={styles.error}>{error}</p>;
+
+  return (
+    <div className={styles.transmisionContainer}>
+      <h1 className={styles.title}>Transmisión en vivo</h1>
+
+      {!session ? (
+        <div className={styles.accessDenied}>
+          <p>Acceso denegado. Debes iniciar sesión para ver esta transmisión.</p>
+          <a href={`${backendUrl}/auth/google`} className={styles.loginButton}>
+            Iniciar sesión con Google
+          </a>
+          <Link to="/" className={styles.backLink}>Volver al inicio</Link>
+        </div>
+      ) : (
+        <div className={styles.streamWrapper}>
+          <p className={styles.userInfo}>Conectado como: {session.email}</p>
+          <iframe
+            src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID&autoplay=1"
+            title="Transmisión en vivo"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            className={styles.iframe}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

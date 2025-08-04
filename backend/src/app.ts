@@ -19,6 +19,10 @@ dotenv.config({ path: path.join(__dirname, envFile) });
 
 const app = express();
 
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
 
 
 
@@ -96,14 +100,6 @@ app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => {
   });
 });
 
-// Ruta para obtener estado de sesión
-/* app.get("/api/session", (req: Request, res: Response) => {
-  res.json({
-    authenticated: req.isAuthenticated(),
-    user: req.user || null,
-    sessionId: req.sessionID,
-  });
-}); */
 app.get("/api/session", (req: Request, res: Response) => {
   console.log("📥 Llamada a /api/session");
   console.log("👤 Usuario:", req.user);

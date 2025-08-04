@@ -246,6 +246,7 @@ const Transmision = () => {
       setIsLoading(true);
       const response = await fetch(`${BACKEND_URL}/api/session`, {
         credentials: "include",
+        method: "GET",
         headers: {
           "Cache-Control": "no-cache",
           "Content-Type": "application/json",

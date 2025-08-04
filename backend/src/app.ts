@@ -42,6 +42,7 @@ if (!process.env.SESSION_SECRET) {
 // Configuración de sesión
 app.use(
   session({
+    name: "session",
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -50,9 +51,8 @@ app.use(
       httpOnly: true,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // clave
       maxAge: 24 * 60 * 60 * 1000, // 1 día
-      /* domain: process.env.NODE_ENV === "production" ? ".onrender.com" : undefined, */ // solo en producción
+      
     },
-    name: "session.cookie",
   })
 );
 
@@ -123,7 +123,7 @@ app.post("/auth/logout", (req: Request, res: Response, next: NextFunction) => {
       return res.status(500).json({ error: "Error al cerrar sesión" });
     }
     req.session.destroy(() => {
-      res.clearCookie("session.cookie");
+      res.clearCookie("session");
       res.json({ success: true });
     });
   });

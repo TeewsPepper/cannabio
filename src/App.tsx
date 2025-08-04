@@ -9,21 +9,27 @@ const App: React.FC = () => {
 
   useEffect(() => {
     console.log("Verificando autenticación al cargar la aplicación");
-    
-    fetch("/api/session", { credentials: "include" })
-       .then((response) => response.body)
-      .then(res => {
+
+    fetch("/api/session", {
+      credentials: "include",
+      headers: {
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
         console.log("Estado de la respuesta de /api/session:", res);
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         console.log("Respuesta de /api/session:", data);
-        
+
         setIsAuthenticated(data.authenticated);
       })
-      .catch((er) => {console.log("Error al verificar autenticación", er);
-        setIsAuthenticated(false)} );
-
+      .catch((er) => {
+        console.log("Error al verificar autenticación", er);
+        setIsAuthenticated(false);
+      });
   }, []);
 
   // Mientras no sabemos si está auth, podés mostrar cargando

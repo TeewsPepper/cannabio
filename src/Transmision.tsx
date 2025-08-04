@@ -228,7 +228,7 @@ const Transmision = () => {
       localStorage.removeItem("session_token");
       document.cookie.split(";").forEach((c) => {
         const cookieName = c.trim().split("=")[0];
-        if (cookieName === "session.cookie") {
+        if (cookieName === "session") {
           document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
         }
       });
@@ -260,7 +260,7 @@ const Transmision = () => {
 
       if (!data.authenticated) {
         localStorage.removeItem("session_token");
-        document.cookie = "session.cookie=; Max-Age=0; path=/;";
+        document.cookie = "session=; Max-Age=0; path=/;";
       }
     } catch (error) {
       console.error("Error verificando autenticación:", error);

@@ -17,7 +17,7 @@ const App: React.FC = () => {
         
         setIsAuthenticated(data.authenticated);
       })
-      .catch(() => {console.log("Error al verificar autenticación");
+      .catch((er) => {console.log("Error al verificar autenticación", er);
         setIsAuthenticated(false)} );
 
   }, []);

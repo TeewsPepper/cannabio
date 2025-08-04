@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
-     "start": "node -e 'if (!process.env.SESSION_SECRET) throw new Error(\"SESSION_SECRET faltante\")' && node app.ts"
+       "start": "node -e 'if (!process.env.SESSION_SECRET) throw new Error(\"SESSION_SECRET faltante\")' && node src/app.ts"
   },
   "keywords": [],
   "author": "",

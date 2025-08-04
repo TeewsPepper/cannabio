@@ -107,12 +107,12 @@ passport.use(
 
 // 4. Serialización mínima (sin DB)
 passport.serializeUser((user: any, done) => {
-  done(null, user.id);
+  done(null, user);
 });
 
 // 5. Deserialización básica
-passport.deserializeUser((id: string, done) => {
-  done(null, { id }); // Solo devuelve el ID
+passport.deserializeUser((user: any, done) => {
+  done(null, user); // lo recupera tal cual
 });
 
 export default passport;

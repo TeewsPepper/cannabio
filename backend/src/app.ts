@@ -50,7 +50,7 @@ app.use(
       httpOnly: true,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // clave
       maxAge: 24 * 60 * 60 * 1000, // 1 día
-      domain: process.env.NODE_ENV === "production" ? ".onrender.com" : undefined, // solo en producción
+      /* domain: process.env.NODE_ENV === "production" ? ".onrender.com" : undefined, */ // solo en producción
     },
     name: "session.cookie",
   })
@@ -97,14 +97,25 @@ app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => {
 });
 
 // Ruta para obtener estado de sesión
-app.get("/api/session", (req: Request, res: Response) => {
+/* app.get("/api/session", (req: Request, res: Response) => {
   res.json({
     authenticated: req.isAuthenticated(),
     user: req.user || null,
     sessionId: req.sessionID,
   });
-});
+}); */
+app.get("/api/session", (req: Request, res: Response) => {
+  console.log("📥 Llamada a /api/session");
+  console.log("👤 Usuario:", req.user);
+  console.log("💾 Sesión:", req.session);
+  console.log("🔐 Autenticado:", req.isAuthenticated());
 
+  if (req.isAuthenticated() && req.user) {
+    res.status(200).json({ authenticated: true, user: req.user });
+  } else {
+    res.status(401).json({ authenticated: false, user: null });
+  }
+});
 // Logout
 app.post("/auth/logout", (req: Request, res: Response, next: NextFunction) => {
   req.logout((err) => {

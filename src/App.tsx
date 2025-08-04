@@ -11,6 +11,7 @@ const App: React.FC = () => {
     console.log("Verificando autenticación al cargar la aplicación");
     
     fetch("/api/session", { credentials: "include" })
+       .then((response) => response.body)
       .then(res => {
         console.log("Estado de la respuesta de /api/session:", res);
         return res.json();

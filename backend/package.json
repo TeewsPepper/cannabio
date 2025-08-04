@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "dist/app.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
-       "start": "node -e 'if (!process.env.SESSION_SECRET) throw new Error(\"SESSION_SECRET faltante\")' && node src/app.ts"
+    "start": "node -e 'if (!process.env.SESSION_SECRET) throw new Error(\"❌ Critical: SESSION_SECRET environment variable is missing\")' && node dist/app.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts"
   },
   "keywords": [],
   "author": "",

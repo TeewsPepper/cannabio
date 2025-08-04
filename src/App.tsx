@@ -8,12 +8,18 @@ const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
+    console.log("Verificando autenticación al cargar la aplicación");
+    
     fetch("/api/session", { credentials: "include" })
       .then(res => res.json())
       .then(data => {
+        console.log("Respuesta de /api/session:", data);
+        
         setIsAuthenticated(data.authenticated);
       })
-      .catch(() => setIsAuthenticated(false));
+      .catch(() => {console.log("Error al verificar autenticación");
+        setIsAuthenticated(false)} );
+
   }, []);
 
   // Mientras no sabemos si está auth, podés mostrar cargando

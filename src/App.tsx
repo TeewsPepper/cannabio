@@ -7,10 +7,12 @@ import RutaProtegida from "./components/RutaProtegida";
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
+  const BACKEND_URL =
+    import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
   useEffect(() => {
     console.log("Verificando autenticación al cargar la aplicación");
 
-    fetch("/api/session", {
+    fetch(`${BACKEND_URL}/api/session`, {
       credentials: "include",
       headers: {
         "Cache-Control": "no-cache",

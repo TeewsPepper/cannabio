@@ -244,6 +244,8 @@ const Transmision = () => {
   const verifyAuth = async () => {
     try {
       setIsLoading(true);
+      console.log("Verificando autenticación en:", `${BACKEND_URL}/api/session`);
+      
       const response = await fetch(`${BACKEND_URL}/api/session`, {
         credentials: "include",
         method: "GET",
@@ -275,6 +277,8 @@ const Transmision = () => {
   };
 
   useEffect(() => {
+    console.log("Iniciando verificación de autenticación");
+    
     verifyAuth();
   }, []);
 

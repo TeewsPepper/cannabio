@@ -19,9 +19,7 @@ dotenv.config({ path: path.join(__dirname, envFile) });
 
 const app = express();
 
-if (process.env.NODE_ENV === "production") {
-  app.set("trust proxy", 1);
-}
+
 
 
 
@@ -29,7 +27,10 @@ if (process.env.NODE_ENV === "production") {
 // Configuración CORS mejorada
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: [
+      process.env.FRONTEND_URL || "http://localhost:5173",
+      "https://accounts.google.com",
+    ],
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
@@ -38,16 +39,21 @@ app.use(
   })
 );
 
+
 if (!process.env.SESSION_SECRET) {
   throw new Error("❌ ERROR: SESSION_SECRET no está definido en las variables de entorno");
 }
 
 
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
 // Configuración de sesión
 app.use(
   session({
     name: "session",
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET!,
     resave: false,
     saveUninitialized: false,
     cookie: {

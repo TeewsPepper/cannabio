@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from "react";
 import styles from "./styles/Transmision.module.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -72,10 +70,12 @@ const Transmision = () => {
   const verifyAuth = async () => {
     try {
       setIsLoading(true);
-      console.log("Verificando autenticación en:", `${BACKEND_URL}/api/session`);
-      
+      console.log(
+        "Verificando autenticación en:",
+        `${BACKEND_URL}/api/session`
+      );
+
       const response = await fetch(`${BACKEND_URL}/api/session`, {
-        
         credentials: "include",
         method: "GET",
         headers: {
@@ -86,8 +86,12 @@ const Transmision = () => {
 
       console.log("📬 Respuesta HTTP:", response);
 
-      if (!response.ok) throw new Error("Error de autenticación");
-      console.warn("⚠️ La respuesta no fue OK. Status:", response.status);
+      if (!response.ok) {
+        console.warn("⚠️ La respuesta no fue OK. Status:", response.status);
+        throw new Error("Error de autenticación");
+      } else {
+        console.log("✅ La respuesta fue OK. Status:", response.status);
+      }
 
       const data = await response.json();
       console.log("📦 Datos recibidos del backend:", data);
@@ -116,7 +120,7 @@ const Transmision = () => {
 
   useEffect(() => {
     console.log("Iniciando verificación de autenticación");
-    
+
     verifyAuth();
   }, []);
 

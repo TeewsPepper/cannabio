@@ -1,56 +1,18 @@
-import React, { useEffect, useState } from "react";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Transmision from "./Transmision";
-import RutaProtegida from "./components/RutaProtegida";
+
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+ 
 
-  const BACKEND_URL =
-    import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
-  useEffect(() => {
-    console.log("Verificando autenticación al cargar la aplicación");
-
-    fetch(`${BACKEND_URL}/api/session`, {
-      credentials: "include",
-      headers: {
-        "Cache-Control": "no-cache",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        console.log("Estado de la respuesta de /api/session:", res);
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Respuesta de /api/session:", data);
-
-        setIsAuthenticated(data.authenticated);
-      })
-      .catch((er) => {
-        console.log("Error al verificar autenticación", er);
-        setIsAuthenticated(false);
-      });
-  }, []);
-
-  // Mientras no sabemos si está auth, podés mostrar cargando
-  if (isAuthenticated === null) {
-    return <div>Cargando...</div>;
-  }
 
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/transmision"
-          element={
-            <RutaProtegida isAuthenticated={isAuthenticated}>
-              <Transmision />
-            </RutaProtegida>
-          }
-        />
+        <Route path="/transmision" element={<Transmision />} />
       </Routes>
     </Router>
   );

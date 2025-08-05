@@ -75,6 +75,7 @@ const Transmision = () => {
       console.log("Verificando autenticación en:", `${BACKEND_URL}/api/session`);
       
       const response = await fetch(`${BACKEND_URL}/api/session`, {
+        
         credentials: "include",
         method: "GET",
         headers: {
@@ -83,20 +84,29 @@ const Transmision = () => {
         },
       });
 
+      console.log("📬 Respuesta HTTP:", response);
+
       if (!response.ok) throw new Error("Error de autenticación");
+      console.warn("⚠️ La respuesta no fue OK. Status:", response.status);
 
       const data = await response.json();
+      console.log("📦 Datos recibidos del backend:", data);
       setIsAuthenticated(data.authenticated);
 
       if (!data.authenticated) {
+        console.warn("⛔ Usuario no autenticado. Limpiando sesión...");
         localStorage.removeItem("session_token");
+
         document.cookie = "session=; Max-Age=0; path=/;";
+      } else {
+        console.log("✅ Usuario autenticado correctamente.");
       }
     } catch (error) {
       console.error("Error verificando autenticación:", error);
       setIsAuthenticated(false);
     } finally {
       setIsLoading(false);
+      console.log("✅ Verificación de autenticación finalizada.");
     }
   };
 

@@ -101,13 +101,7 @@ app.get("/auth/failure", (req: Request, res: Response) => {
   res.status(401).json({ error: "Error en autenticación con Google" });
 });
 
-// Ruta protegida
-app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => {
-  res.json({
-    message: "Acceso autorizado",
-    user: req.user,
-  });
-});
+
 
 app.get("/api/session", (req: Request, res: Response) => {
   console.log("📥 Llamada a /api/session");
@@ -120,6 +114,14 @@ app.get("/api/session", (req: Request, res: Response) => {
   } else {
     res.status(401).json({ authenticated: false, user: null });
   }
+});
+
+// Ruta protegida
+app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => {
+  res.json({
+    message: "Acceso autorizado",
+    user: req.user,
+  });
 });
 // Logout
 app.post("/auth/logout", (req: Request, res: Response, next: NextFunction) => {

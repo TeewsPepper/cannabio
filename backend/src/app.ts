@@ -123,6 +123,8 @@ app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => {
     user: req.user,
   });
 });
+
+
 // Logout
 app.post("/auth/logout", (req: Request, res: Response, next: NextFunction) => {
   req.logout((err) => {

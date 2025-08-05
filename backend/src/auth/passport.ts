@@ -54,29 +54,14 @@ passport.use(
 
 // Serialización (guarda solo el ID en la sesión)
 passport.serializeUser((user: Express.User, done) => {
-  console.log("📦 Serializando ID:", user.id);
-  done(null, user.id);
+  console.log("📦 Serializando usuario completo:", user);
+  done(null, user); // <<== Guarda todo el objeto
 });
 
 // Deserialización (recupera el usuario básico)
-passport.deserializeUser(async (id: unknown, done) => {
-  try {
-    console.log("📦 Deserializando ID:", id);
-
-    if (typeof id !== "string") {
-      throw new Error("ID de usuario inválido");
-    }
-
-    // Devuelve un objeto mínimo que cumpla con Express.User
-    done(null, {
-      id,
-      email: "", // No necesario en deserialización
-      name: "", // Campos opcionales
-    } as Express.User);
-  } catch (error) {
-    console.error("⚠️ Error al deserializar:", error);
-    done(error);
-  }
+passport.deserializeUser((user: Express.User, done) => {
+  console.log("📦 Deserializando usuario:", user);
+  done(null, user); // <<== Ya es todo el usuario, no hay que reconstruir
 });
 
 export default passport;

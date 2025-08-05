@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import styles from "./styles/Transmision.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import YouTubeEmbed from "./components/YouTubeEmbed";
+import AccesoDenegado from "./components/AccesoDenegado";
+
 
 const camaras = [
   {
@@ -136,7 +138,7 @@ const Transmision = () => {
   if (!isAuthenticated) {
     return (
       <main className={styles.transmisionContainer}>
-        <h1 className={styles.titulo}>Acceso restringido</h1>
+      {/*   <h1 className={styles.titulo}>Acceso restringido</h1>
         <p>
           Debes iniciar sesión con tu cuenta autorizada de Google para acceder.
         </p>
@@ -151,7 +153,8 @@ const Transmision = () => {
 
         <Link to="/">
           <button className={styles.btnVolver}>Volver al inicio</button>
-        </Link>
+        </Link> */}
+        <AccesoDenegado />
       </main>
     );
   }

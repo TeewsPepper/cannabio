@@ -65,7 +65,7 @@
 }
 
 .aboutText {
-  font-family: var(--font-principal);
+  font-family: var(--font-secundaria);
   font-size: 1.125rem;
   line-height: 1.7;
   color: var(--color-blanco);
@@ -79,6 +79,14 @@
 
 .aboutParagraph + .aboutParagraph {
   margin-top: var(--espaciado-sm);
+}
+
+.externAnchor {
+  color: var(--color-secundario);
+  text-decoration: underline;
+}
+.externAnchor:hover {
+  color: #30ca82;
 }
 
 /* Ajustes responsivos */

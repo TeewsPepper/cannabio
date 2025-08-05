@@ -1,4 +1,3 @@
-
 import passport from "passport";
 import { Strategy as GoogleStrategy, Profile } from "passport-google-oauth20";
 import dotenv from "dotenv";
@@ -6,8 +5,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // 1. Configuración directa de usuarios autorizados
-const authorizedEmails = process.env.AUTHORIZED_USERS 
-  ? process.env.AUTHORIZED_USERS.split(',').map(email => email.trim().toLowerCase())
+const authorizedEmails = process.env.AUTHORIZED_USERS
+  ? process.env.AUTHORIZED_USERS.split(",").map((email) =>
+      email.trim().toLowerCase()
+    )
   : [];
 
 passport.use(
@@ -17,13 +18,13 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       callbackURL: process.env.GOOGLE_CALLBACK_URL!,
       passReqToCallback: true,
-      scope: ['profile', 'email'],
-      proxy: true 
+      scope: ["profile", "email"],
+      proxy: true,
     },
     (req, accessToken, refreshToken, profile: Profile, done) => {
       try {
         const email = profile.emails?.[0]?.value?.toLowerCase();
-        
+
         if (!email) {
           console.log("❌ Email no encontrado en perfil de Google");
           return done(null, false, { message: "Email no disponible" });
@@ -39,9 +40,9 @@ passport.use(
           id: profile.id,
           email: email,
           name: profile.displayName,
-          avatar: profile.photos?.[0]?.value
+          avatar: profile.photos?.[0]?.value,
         };
- console.log("✅ Usuario autorizado:", user.email);
+        console.log("✅ Usuario autorizado:", user.email);
         return done(null, user);
       } catch (error) {
         console.error("🔥 Error en estrategia Google:", error);
@@ -61,18 +62,17 @@ passport.serializeUser((user: Express.User, done) => {
 passport.deserializeUser(async (id: unknown, done) => {
   try {
     console.log("📦 Deserializando ID:", id);
-    
-    if (typeof id !== 'string') {
+
+    if (typeof id !== "string") {
       throw new Error("ID de usuario inválido");
     }
 
     // Devuelve un objeto mínimo que cumpla con Express.User
-    done(null, { 
+    done(null, {
       id,
-      email: '', // No necesario en deserialización
-      name: '',  // Campos opcionales
+      email: "", // No necesario en deserialización
+      name: "", // Campos opcionales
     } as Express.User);
-    
   } catch (error) {
     console.error("⚠️ Error al deserializar:", error);
     done(error);

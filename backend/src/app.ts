@@ -60,7 +60,6 @@ app.use(
       secure: process.env.NODE_ENV === "production", // true en producción, false en desarrollo
       httpOnly: true,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // clave
-      domain: '.onrender.com',
       maxAge: 24 * 60 * 60 * 1000, // 1 día
       
     },

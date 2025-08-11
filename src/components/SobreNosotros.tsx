@@ -32,19 +32,19 @@ const SobreNosotros = () => {
 
         <div className={styles.aboutText}>
           <p className={styles.aboutParagraph}>
-            Somos una empresa Uruguaya, con{" "}
-            <strong>más de 20 años de experiencia</strong> en el cultivo de{" "}
+            Somos una empresa Uruguaya ubicada en Salto, con{" "}
+            <strong>más de 10 años de experiencia</strong> en el cultivo de{" "}
             <strong>
               <a
-                href=""
+                href="https://es.wikipedia.org/wiki/C%C3%A1%C3%B1amo"
                 className={styles.externAnchor}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                cáñamo para uso medicinal
+                cannabis para uso medicinal e industrial.
               </a>
             </strong>{" "}
-            e industrial. Innovamos y desarrollamos nuevas técnicas naturales
+             Innovamos y desarrollamos nuevas técnicas naturales
             para una mayor eficiencia, asegurando una{" "}
             <strong>
               <a

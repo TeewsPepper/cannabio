@@ -30,7 +30,7 @@ const Footer = ({ onTogglePoliticas }: FooterProps) => {
             </a>
 
             <a
-              href="https://wa.me/1234567890" // reemplaza con tu número real sin "+"
+              href="https://wa.me/59899677448" // reemplaza con tu número real sin "+"
               target="_blank"
               rel="noopener noreferrer"
               className={`${styles.socialLink} ${styles.whatsappLink}`}

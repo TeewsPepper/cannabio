@@ -1,30 +1,29 @@
-
 import express, { Request, Response, NextFunction } from "express";
 import session from "express-session";
 import dotenv from "dotenv";
 import cors from "cors";
 import path from "path";
 import { ensureAuthenticated } from "./middleware/ensureAuthenticated";
-// Importamos la configuración centralizada de Passport
 import passport from "./auth/passport";
 
-// Si no está definida, asignamos "development" por defecto
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
+// ---------------- NUEVAS DEPENDENCIAS PARA EL FORMULARIO ----------------
+import nodemailer from "nodemailer";
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
 
-// Elegimos el archivo .env según el entorno
+
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
 const envFile =
   process.env.NODE_ENV === "production" ? "../.env.production" : "../.env";
-
 dotenv.config({ path: path.join(__dirname, envFile) });
 
 const app = express();
 
+// ---------------- SEGURIDAD ----------------
+app.use(helmet());
 
 
-
-
-
-// Configuración CORS mejorada
+// ---------------- CORS ----------------
 app.use(
   cors({
     origin: [
@@ -39,17 +38,15 @@ app.use(
   })
 );
 
-
+// ---------------- SESIONES ----------------
 if (!process.env.SESSION_SECRET) {
   throw new Error("❌ ERROR: SESSION_SECRET no está definido en las variables de entorno");
 }
-
 
 if (process.env.NODE_ENV === "production") {
   app.set("trust proxy", 1);
 }
 
-// Configuración de sesión
 app.use(
   session({
     name: "session",
@@ -57,18 +54,72 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production", // true en producción, false en desarrollo
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // clave
-      maxAge: 24 * 60 * 60 * 1000, // 1 día
-      
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 24 * 60 * 60 * 1000,
     },
   })
 );
 
-// Inicialización de Passport
+// ---------------- PASSPORT ----------------
 app.use(passport.initialize());
 app.use(passport.session());
+
+// ---------------- BODY PARSER ----------------
+app.use(express.json());
+
+// ---------------- RATE LIMIT PARA FORMULARIO ----------------
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minuto
+  max: 5, // 5 solicitudes por IP
+  message: "Demasiadas solicitudes, inténtalo nuevamente más tarde",
+});
+app.use("/send-email", limiter);
+
+// ---------------- ENDPOINT NUEVO: FORMULARIO ----------------
+const transporter = nodemailer.createTransport({
+  host: "smtp.zoho.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.ZOHO_EMAIL,
+    pass: process.env.ZOHO_APP_PASS,
+  },
+});
+
+app.post("/send-email", async (req: Request, res: Response) => {
+  try {
+    const { nombre, email, mensaje } = req.body;
+
+    // ---------------- VALIDACIÓN ----------------
+    if (
+      !nombre || nombre.length < 2 || nombre.length > 50 ||
+      !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+      !mensaje || mensaje.length < 10 || mensaje.length > 1000
+    ) {
+      return res.status(400).json({ error: "Datos inválidos" });
+    }
+
+    // ---------------- SANITIZACIÓN ----------------
+    const sanitize = (str: string) =>
+      str.trim().replace(/<[^>]*>?/gm, "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    const mailOptions = {
+      from: `"${sanitize(nombre)}" <${process.env.ZOHO_EMAIL}>`,
+      to: process.env.TEST_EMAILS, // correos de prueba en staging
+      subject: `Nuevo mensaje desde formulario: ${sanitize(nombre)}`,
+      text: `Nombre: ${sanitize(nombre)}\nEmail: ${email}\nMensaje:\n${sanitize(mensaje)}`,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Correo enviado:", info.messageId);
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error al enviar el correo" });
+  }
+});
 
 
 

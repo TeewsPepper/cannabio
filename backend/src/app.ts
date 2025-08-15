@@ -60,9 +60,9 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging",
       httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      sameSite: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging" ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000,
     },
   })

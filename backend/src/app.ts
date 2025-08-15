@@ -13,8 +13,14 @@ import helmet from "helmet";
 
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
-const envFile =
-  process.env.NODE_ENV === "production" ? "../.env.production" : "../.env";
+let envFile = "../.env";
+
+if (process.env.NODE_ENV === "production") {
+  envFile = "../.env.production";
+} else if (process.env.NODE_ENV === "staging") {
+  envFile = "../.env.staging";
+}
+
 dotenv.config({ path: path.join(__dirname, envFile) });
 
 const app = express();

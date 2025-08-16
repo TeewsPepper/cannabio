@@ -10,7 +10,7 @@
     "moduleResolution": "node",
     
     
-    "typeRoots": ["./src/types", "./node_modules/@types"],
+    
     "sourceMap": true,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,

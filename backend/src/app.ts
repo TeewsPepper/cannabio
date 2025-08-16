@@ -11,7 +11,6 @@ import nodemailer from "nodemailer";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 
-
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 let envFile = "../.env";
 
@@ -27,7 +26,6 @@ const app = express();
 
 // ---------------- SEGURIDAD ----------------
 app.use(helmet());
-
 
 // ---------------- CORS ----------------
 app.use(
@@ -46,10 +44,12 @@ app.use(
 
 // ---------------- SESIONES ----------------
 if (!process.env.SESSION_SECRET) {
-  throw new Error("❌ ERROR: SESSION_SECRET no está definido en las variables de entorno");
+  throw new Error(
+    "❌ ERROR: SESSION_SECRET no está definido en las variables de entorno"
+  );
 }
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
   app.set("trust proxy", 1);
 }
 
@@ -60,9 +60,15 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging",
+      secure:
+        process.env.NODE_ENV === "production" ||
+        process.env.NODE_ENV === "staging",
       httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging" ? "none" : "lax",
+      sameSite:
+        process.env.NODE_ENV === "production" ||
+        process.env.NODE_ENV === "staging"
+          ? "none"
+          : "lax",
       maxAge: 24 * 60 * 60 * 1000,
     },
   })
@@ -100,32 +106,45 @@ app.post("/send-email", async (req: Request, res: Response) => {
 
     // ---------------- VALIDACIÓN ----------------
     if (
-      !nombre || nombre.length < 2 || nombre.length > 50 ||
-      !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
-      !mensaje || mensaje.length < 10 || mensaje.length > 1000
+      !nombre ||
+      nombre.length < 2 ||
+      nombre.length > 50 ||
+      !email ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+      !mensaje ||
+      mensaje.length < 10 ||
+      mensaje.length > 1000
     ) {
       return res.status(400).json({ error: "Datos inválidos" });
     }
 
     // ---------------- SANITIZACIÓN ----------------
     const sanitize = (str: string) =>
-      str.trim().replace(/<[^>]*>?/gm, "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      str
+        .trim()
+        .replace(/<[^>]*>?/gm, "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
 
     const mailOptions = {
-  from: `"${sanitize(nombre)}" <${process.env.ZOHO_EMAIL}>`,
-  to: process.env.TEST_EMAILS, // correos de prueba en staging
-  subject: `Nuevo mensaje de: ${sanitize(nombre)}`,
-  html: `
+      from: `"${sanitize(nombre)}" <${process.env.ZOHO_EMAIL}>`,
+      to: process.env.TEST_EMAILS, // correos de prueba en staging
+      subject: `Nuevo mensaje de: ${sanitize(nombre)}`,
+      html: `
     <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333;">
       <h2 style="color: #2c3e50;">Nuevo mensaje desde CannaBIO</h2>
       <p><strong>Nombre:</strong> ${sanitize(nombre)}</p>
       <p><strong>Email:</strong> ${sanitize(email)}</p>
-      <p><strong>Mensaje:</strong><br/>${sanitize(mensaje).replace(/\n/g, "<br/>")}</p>
+      <p><strong>Mensaje:</strong><br/>${sanitize(mensaje).replace(
+        /\n/g,
+        "<br/>"
+      )}</p>
       <hr/>
       <p style="font-size: 0.9em; color: #777;">Este mensaje fue enviado desde el formulario de contacto de tu sitio web.</p>
     </div>
-  `
-};
+  `,
+    };
 
     const info = await transporter.sendMail(mailOptions);
     console.log("Correo enviado:", info.messageId);
@@ -135,9 +154,6 @@ app.post("/send-email", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Error al enviar el correo" });
   }
 });
-
-
-
 
 // Rutas de autenticación
 app.get(
@@ -157,7 +173,7 @@ app.get(
   (req: Request, res: Response) => {
     const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
     console.log("✅ Autenticación exitosa, redirigiendo a frontend");
-    
+
     res.redirect(`${frontendUrl}/transmision`);
   }
 );
@@ -165,8 +181,6 @@ app.get(
 app.get("/auth/failure", (req: Request, res: Response) => {
   res.status(401).json({ error: "Error en autenticación con Google" });
 });
-
-
 
 app.get("/api/session", (req: Request, res: Response) => {
   console.log("📥 Llamada a /api/session");
@@ -188,7 +202,6 @@ app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => {
     user: req.user,
   });
 });
-
 
 // Logout
 app.post("/auth/logout", (req: Request, res: Response, next: NextFunction) => {
@@ -214,4 +227,3 @@ app.listen(PORT, () => {
 });
 
 export default app;
-

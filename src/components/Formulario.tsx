@@ -229,8 +229,8 @@ const Formulario = () => {
       >
         <h2>Contáctanos</h2>
 
-        {/* ---------- Login info ---------- */}
-        {user ? (
+        
+     {/*    {user ? (
           <div className={styles.usuario}>
             <img src={user.avatar} alt={user.name} />
             <span>{user.name} ({user.email})</span>
@@ -243,7 +243,7 @@ const Formulario = () => {
           >
             Iniciar sesión con Google
           </a>
-        )}
+        )} */}
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           {/* Nombre */}

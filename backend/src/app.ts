@@ -112,11 +112,20 @@ app.post("/send-email", async (req: Request, res: Response) => {
       str.trim().replace(/<[^>]*>?/gm, "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
     const mailOptions = {
-      from: `"${sanitize(nombre)}" <${process.env.ZOHO_EMAIL}>`,
-      to: process.env.TEST_EMAILS, // correos de prueba en staging
-      subject: `Nuevo mensaje desde formulario: ${sanitize(nombre)}`,
-      text: `Nombre: ${sanitize(nombre)}\nEmail: ${email}\nMensaje:\n${sanitize(mensaje)}`,
-    };
+  from: `"${sanitize(nombre)}" <${process.env.ZOHO_EMAIL}>`,
+  to: process.env.TEST_EMAILS, // correos de prueba en staging
+  subject: `Nuevo mensaje de: ${sanitize(nombre)}`,
+  html: `
+    <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333;">
+      <h2 style="color: #2c3e50;">Nuevo mensaje desde CannaBIO</h2>
+      <p><strong>Nombre:</strong> ${sanitize(nombre)}</p>
+      <p><strong>Email:</strong> ${sanitize(email)}</p>
+      <p><strong>Mensaje:</strong><br/>${sanitize(mensaje).replace(/\n/g, "<br/>")}</p>
+      <hr/>
+      <p style="font-size: 0.9em; color: #777;">Este mensaje fue enviado desde el formulario de contacto de tu sitio web.</p>
+    </div>
+  `
+};
 
     const info = await transporter.sendMail(mailOptions);
     console.log("Correo enviado:", info.messageId);

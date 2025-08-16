@@ -38,7 +38,7 @@ const Formulario = () => {
         mensaje: sanitizeInput(data.mensaje),
       };
 
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/send-email`, {/* 7777 */
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/send-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

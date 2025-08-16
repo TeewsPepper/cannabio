@@ -94,7 +94,6 @@ app.use("/send-email", limiter);
 const DESTINATARIOS_PROD = [
   "dvidal@cannabiouy.com",
   "fsilveira@cannabiouy.com",
-  "lalmeida@cannabiouy.com",
 ];
 
 const transporter = nodemailer.createTransport({

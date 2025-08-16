@@ -1,4 +1,3 @@
-
 import express, { Request, Response, NextFunction } from "express";
 import session from "express-session";
 import dotenv from "dotenv";
@@ -6,7 +5,6 @@ import cors from "cors";
 import path from "path";
 import { ensureAuthenticated } from "./middleware/ensureAuthenticated";
 import passport from "./auth/passport";
-
 
 import nodemailer from "nodemailer";
 import rateLimit from "express-rate-limit";
@@ -32,9 +30,8 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: 
-      process.env.FRONTEND_URL || "http://localhost:5173",
-    
+    origin: ["https://cannabiouy.com", "https://www.cannabiouy.com"],
+
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
@@ -50,7 +47,10 @@ if (!process.env.SESSION_SECRET) {
   );
 }
 
-if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
+if (
+  process.env.NODE_ENV === "production" ||
+  process.env.NODE_ENV === "staging"
+) {
   app.set("trust proxy", 1);
 }
 
@@ -145,7 +145,7 @@ app.post("/send-email", async (req: Request, res: Response) => {
 
     const mailOptions = {
       from: `"${sanitize(nombre)}" <${process.env.ZOHO_EMAIL}>`,
-       replyTo: email,
+      replyTo: email,
       to: destinatarios,
       subject: `(CannaBIO) mensaje de: ${sanitize(nombre)}`,
       html: `
@@ -198,7 +198,7 @@ app.get("/auth/failure", (req: Request, res: Response) => {
   res.status(401).json({ error: "Error en autenticación con Google" });
 });
 
-app.get("/api/session", (req: Request, res: Response) => { 
+app.get("/api/session", (req: Request, res: Response) => {
   console.log("🟢 Session ID:", req.sessionID);
   console.log("🟢 Session data:", req.session);
   console.log("🟢 User:", req.user);
@@ -210,7 +210,7 @@ app.get("/api/session", (req: Request, res: Response) => {
 });
 
 // Ruta protegida
-app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => { 
+app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => {
   res.json({
     message: "Acceso autorizado",
     user: req.user,
@@ -219,13 +219,17 @@ app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => {
 });
 
 // Logout
-app.post("/auth/logout", (req: Request, res: Response, next: NextFunction) => { 
+app.post("/auth/logout", (req: Request, res: Response, next: NextFunction) => {
   req.logout((err) => {
     if (err) {
       return res.status(500).json({ error: "Error al cerrar sesión" });
     }
     req.session.destroy(() => {
-      res.clearCookie("session");
+      res.clearCookie("session", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      });
       res.json({ success: true });
     });
   });

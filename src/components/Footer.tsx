@@ -42,8 +42,8 @@ const Footer = ({ onTogglePoliticas }: FooterProps) => {
           </div>
 
           <address className={styles.footerContact}>
-            <a href="mailto:info@cannabiouy.com" className={styles.footerLink}>
-              info@cannabiouy.com
+            <a href="mailto:contacto@cannabiouy.com" className={styles.footerLink}>
+              contacto@cannabiouy.com
             </a>
           </address>
 

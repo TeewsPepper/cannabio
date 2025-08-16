@@ -7,7 +7,7 @@ import path from "path";
 import { ensureAuthenticated } from "./middleware/ensureAuthenticated";
 import passport from "./auth/passport";
 
-// ---------------- NUEVAS DEPENDENCIAS PARA EL FORMULARIO ----------------
+
 import nodemailer from "nodemailer";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
@@ -96,6 +96,7 @@ app.use("/send-email", limiter);
 const DESTINATARIOS_PROD = [
   "dvidal@cannabiouy.com",
   "fsilveira@cannabiouy.com",
+  "contacto@cannabiouy.com",
   "gomez.pepper@gmail.com",
 ];
 
@@ -147,7 +148,7 @@ app.post("/send-email", async (req: Request, res: Response) => {
       from: `"${sanitize(nombre)}" <${process.env.ZOHO_EMAIL}>`,
        replyTo: email,
       to: destinatarios,
-      subject: `Nuevo mensaje de: ${sanitize(nombre)}`,
+      subject: `(CannaBIO) mensaje de: ${sanitize(nombre)}`,
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333;">
           <h2 style="color: #2c3e50;">Nuevo mensaje desde CannaBIO</h2>
@@ -189,7 +190,6 @@ app.get(
   }),
   (req: Request, res: Response) => {
     const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
-    console.log("✅ Autenticación exitosa, redirigiendo a frontend");
 
     res.redirect(`${frontendUrl}/transmision`);
   }
@@ -199,11 +199,7 @@ app.get("/auth/failure", (req: Request, res: Response) => {
   res.status(401).json({ error: "Error en autenticación con Google" });
 });
 
-app.get("/api/session", (req: Request, res: Response) => { /* 555 */
-  console.log("📥 Llamada a /api/session");
-  console.log("👤 Usuario:", req.user);
-  console.log("💾 Sesión:", req.session);
-  console.log("🔐 Autenticado:", req.isAuthenticated());
+app.get("/api/session", (req: Request, res: Response) => { 
 
   if (req.isAuthenticated() && req.user) {
     res.status(200).json({ authenticated: true, user: req.user });
@@ -213,7 +209,7 @@ app.get("/api/session", (req: Request, res: Response) => { /* 555 */
 });
 
 // Ruta protegida
-app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => { /* 555 */
+app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => { 
   res.json({
     message: "Acceso autorizado",
     user: req.user,
@@ -222,7 +218,7 @@ app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => { 
 });
 
 // Logout
-app.post("/auth/logout", (req: Request, res: Response, next: NextFunction) => { /* 555 */
+app.post("/auth/logout", (req: Request, res: Response, next: NextFunction) => { 
   req.logout((err) => {
     if (err) {
       return res.status(500).json({ error: "Error al cerrar sesión" });

@@ -10,7 +10,7 @@ const camaras = [
     nombre: "Cam 1",
     area: "Área de cultivo abierta",
     estado: "activa",
-    videoId: "dQw4w9WgXcQ", // ID de ejemplo, reemplaza con tus IDs reales
+    videoId: "dQw4w9WgXcQ", // ID de ejemplo
   },
   {
     nombre: "Cam 2",
@@ -37,14 +37,14 @@ const Transmision = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Uso de variable de entorno para backend (asegúrate que está definida)
+  
   const BACKEND_URL =
     import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
   const handleLogout = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${BACKEND_URL}/auth/logout`, { /* 5555 */
+      const response = await fetch(`${BACKEND_URL}/auth/logout`, { 
         credentials: "include",
         method: "POST",
       });
@@ -77,7 +77,7 @@ const Transmision = () => {
         `${BACKEND_URL}/api/session`
       );
 
-      const response = await fetch(`${BACKEND_URL}/api/session`, {/* 555555555 */
+      const response = await fetch(`${BACKEND_URL}/api/session`, {
         credentials: "include",
         method: "GET",
         headers: {
@@ -86,7 +86,7 @@ const Transmision = () => {
         },
       });
 
-      console.log("📬 Respuesta HTTP:", response);
+      
 
       if (!response.ok) {
         console.warn("⚠️ La respuesta no fue OK. Status:", response.status);
@@ -96,11 +96,11 @@ const Transmision = () => {
       }
 
       const data = await response.json();
-      console.log("📦 Datos recibidos del backend:", data);
+      
       setIsAuthenticated(data.authenticated);
 
       if (!data.authenticated) {
-        console.warn("⛔ Usuario no autenticado. Limpiando sesión...");
+        
         localStorage.removeItem("session_token");
 
         document.cookie = "session=; Max-Age=0; path=/;";
@@ -112,7 +112,7 @@ const Transmision = () => {
       setIsAuthenticated(false);
     } finally {
       setIsLoading(false);
-      console.log("✅ Verificación de autenticación finalizada.");
+      
     }
   };
 
@@ -121,7 +121,7 @@ const Transmision = () => {
   };
 
   useEffect(() => {
-    console.log("Iniciando verificación de autenticación");
+    
 
     verifyAuth();
   }, []);

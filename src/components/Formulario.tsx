@@ -210,6 +210,7 @@ const Formulario = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(sanitizedData),
+        credentials: "include",
       });
 
       if (response.status === 429) {

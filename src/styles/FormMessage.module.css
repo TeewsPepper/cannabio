@@ -1,0 +1,41 @@
+.formMessage {
+  margin-top: var(--espaciado-sm);
+  font-weight: bold;
+  text-align: center;
+  padding: var(--espaciado-xs) var(--espaciado-sm);
+  border-radius: var(--borde-radius);
+  box-shadow: var(--sombra-suave);
+  animation: fadeIn 0.5s ease-in-out;
+  font-family: var(--font-secundaria);
+}
+
+/* Tipos de mensaje */
+.success {
+  color: var(--color-primario);
+  background-color: rgba(21, 134, 82, 0.15);
+  border: 1px solid var(--color-primario);
+}
+
+.error {
+  color: #ff5252;
+  background-color: rgba(255, 82, 82, 0.15);
+  border: 1px solid #ff5252;
+}
+
+.warning {
+  color: var(--color-secundario);
+  background-color: rgba(226, 211, 110, 0.15);
+  border: 1px solid var(--color-secundario);
+}
+
+/* Animación */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -213,7 +213,7 @@ app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => {
   res.json({
     message: "Acceso autorizado",
     user: req.user,
-    
+    credentials: "include",
   });
 });
 

@@ -78,8 +78,8 @@ const Transmision = () => {
       );
 
       const response = await fetch(`${BACKEND_URL}/api/session`, {
-        credentials: "include",
         method: "GET",
+        credentials: "include",
         headers: {
           "Cache-Control": "no-cache",
           "Content-Type": "application/json",

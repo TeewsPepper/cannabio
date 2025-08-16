@@ -44,7 +44,7 @@ const Transmision = () => {
   const handleLogout = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${BACKEND_URL}/auth/logout`, {
+      const response = await fetch(`${BACKEND_URL}/auth/logout`, { /* 5555 */
         credentials: "include",
         method: "POST",
       });
@@ -77,7 +77,7 @@ const Transmision = () => {
         `${BACKEND_URL}/api/session`
       );
 
-      const response = await fetch(`${BACKEND_URL}/api/session`, {
+      const response = await fetch(`${BACKEND_URL}/api/session`, {/* 555555555 */
         credentials: "include",
         method: "GET",
         headers: {
@@ -138,22 +138,7 @@ const Transmision = () => {
   if (!isAuthenticated) {
     return (
       <main className={styles.transmisionContainer}>
-      {/*   <h1 className={styles.titulo}>Acceso restringido</h1>
-        <p>
-          Debes iniciar sesión con tu cuenta autorizada de Google para acceder.
-        </p>
-
-        <button
-          onClick={handleLogin}
-          className={styles.btnGoogle}
-          disabled={isLoading}
-        >
-          {isLoading ? "Cargando..." : "Iniciar sesión con Google"}
-        </button>
-
-        <Link to="/">
-          <button className={styles.btnVolver}>Volver al inicio</button>
-        </Link> */}
+  
         <AccesoDenegado />
       </main>
     );

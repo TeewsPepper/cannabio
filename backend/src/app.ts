@@ -34,7 +34,8 @@ app.use(
   cors({
     origin: [
       process.env.FRONTEND_URL || "http://localhost:5173",
-      "https://accounts.google.com",
+      "https://cannabiosuy.netlify.app",
+      "https://accounts.google.com"
     ],
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
@@ -95,6 +96,7 @@ app.use("/send-email", limiter);
 const DESTINATARIOS_PROD = [
   "dvidal@cannabiouy.com",
   "fsilveira@cannabiouy.com",
+  "gomez.pepper@gmail.com",
 ];
 
 const transporter = nodemailer.createTransport({
@@ -197,7 +199,7 @@ app.get("/auth/failure", (req: Request, res: Response) => {
   res.status(401).json({ error: "Error en autenticación con Google" });
 });
 
-app.get("/api/session", (req: Request, res: Response) => {
+app.get("/api/session", (req: Request, res: Response) => { /* 555 */
   console.log("📥 Llamada a /api/session");
   console.log("👤 Usuario:", req.user);
   console.log("💾 Sesión:", req.session);
@@ -211,15 +213,16 @@ app.get("/api/session", (req: Request, res: Response) => {
 });
 
 // Ruta protegida
-app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => {
+app.get("/transmision", ensureAuthenticated, (req: Request, res: Response) => { /* 555 */
   res.json({
     message: "Acceso autorizado",
     user: req.user,
+    
   });
 });
 
 // Logout
-app.post("/auth/logout", (req: Request, res: Response, next: NextFunction) => {
+app.post("/auth/logout", (req: Request, res: Response, next: NextFunction) => { /* 555 */
   req.logout((err) => {
     if (err) {
       return res.status(500).json({ error: "Error al cerrar sesión" });

@@ -30,7 +30,7 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: ["https://cannabiouy.com", "https://www.cannabiouy.com"],
+    origin: process.env.FRONTEND_URL,/* ["https://cannabiouy.com", "https://www.cannabiouy.com"], */
 
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
@@ -62,15 +62,15 @@ app.use(
     saveUninitialized: false,
     proxy: true,
     cookie: {
-      secure:
-        process.env.NODE_ENV === "production" ||
-        process.env.NODE_ENV === "staging",
+      secure:true,
+        /* process.env.NODE_ENV === "production" ||
+        process.env.NODE_ENV === "staging", */
       httpOnly: true,
-      sameSite:
-        process.env.NODE_ENV === "production" ||
+      sameSite: "none",
+      /*   process.env.NODE_ENV === "production" ||
         process.env.NODE_ENV === "staging"
           ? "none"
-          : "lax",
+          : "lax", */
       maxAge: 24 * 60 * 60 * 1000,
     },
   })

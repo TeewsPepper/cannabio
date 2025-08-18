@@ -97,6 +97,7 @@ const DESTINATARIOS_PROD = [
   "fsilveira@cannabiouy.com",
   "contacto@cannabiouy.com",
   "gomez.pepper@gmail.com",
+  "lalmeida@cannabiouy.com"
 ];
 
 const transporter = nodemailer.createTransport({
@@ -199,9 +200,6 @@ app.get("/auth/failure", (req: Request, res: Response) => {
 });
 
 app.get("/api/session", (req: Request, res: Response) => {
-  console.log("🟢 Session ID:", req.sessionID);
-  console.log("🟢 Session data:", req.session);
-  console.log("🟢 User:", req.user);
   if (req.isAuthenticated() && req.user) {
     res.status(200).json({ authenticated: true, user: req.user });
   } else {

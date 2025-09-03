@@ -98,7 +98,6 @@ const DESTINATARIOS_PROD = [
   "contacto@cannabiouy.com",
   "gomez.pepper@gmail.com",
   "lalmeida@cannabiouy.com",
-  "cannabioeu@cannabiouy.com",
 ];
 
 const transporter = nodemailer.createTransport({
